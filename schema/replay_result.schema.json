@@ -1,0 +1,353 @@
+{
+  "$defs": {
+    "BusinessOutcome": {
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Id"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "BusinessOutcome",
+      "type": "object"
+    },
+    "Escalation": {
+      "properties": {
+        "intervention_id": {
+          "title": "Intervention Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Id"
+        },
+        "resolution": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolution"
+        }
+      },
+      "required": [
+        "intervention_id",
+        "kind",
+        "reason"
+      ],
+      "title": "Escalation",
+      "type": "object"
+    },
+    "Failure": {
+      "properties": {
+        "code": {
+          "enum": [
+            "LOCATOR_NOT_FOUND",
+            "LOCATOR_AMBIGUOUS",
+            "LOCATOR_CONFLICT",
+            "UNEXPECTED_STATE",
+            "SCREEN_MISMATCH",
+            "CHECKPOINT_FAILED",
+            "OUTPUT_PARSE_ERROR",
+            "RECOVERY_EXHAUSTED",
+            "RECOVERY_UNSAFE",
+            "POLICY_VIOLATION",
+            "AUTH_FAILED",
+            "HARD_CONDITION",
+            "RESYNC_FAILED",
+            "SURFACE_ERROR"
+          ],
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Id"
+        },
+        "step_intent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Intent"
+        },
+        "expected": {
+          "default": null,
+          "title": "Expected"
+        },
+        "observed": {
+          "default": null,
+          "title": "Observed"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "evidence": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "object"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Failure",
+      "type": "object"
+    },
+    "Recovery": {
+      "properties": {
+        "condition": {
+          "title": "Condition",
+          "type": "string"
+        },
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Step Id"
+        },
+        "attempt": {
+          "title": "Attempt",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "condition",
+        "action",
+        "step_id",
+        "attempt"
+      ],
+      "title": "Recovery",
+      "type": "object"
+    },
+    "Warning_": {
+      "properties": {
+        "code": {
+          "enum": [
+            "LOCATOR_DEGRADED",
+            "FRAME_FALLBACK",
+            "DRAFT_CAPABILITY",
+            "UNCONTROLLED_INPUT"
+          ],
+          "title": "Code",
+          "type": "string"
+        },
+        "step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Id"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "detail"
+      ],
+      "title": "Warning_",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "capability": {
+      "title": "Capability",
+      "type": "string"
+    },
+    "tenant": {
+      "title": "Tenant",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "succeeded",
+        "business_outcome",
+        "failed",
+        "needs_human",
+        "invalid_request",
+        "aborted"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "outputs": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outputs"
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BusinessOutcome"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "failure": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Failure"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "escalations": {
+      "items": {
+        "$ref": "#/$defs/Escalation"
+      },
+      "title": "Escalations",
+      "type": "array"
+    },
+    "recoveries": {
+      "items": {
+        "$ref": "#/$defs/Recovery"
+      },
+      "title": "Recoveries",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "$ref": "#/$defs/Warning_"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "steps_executed": {
+      "default": 0,
+      "title": "Steps Executed",
+      "type": "integer"
+    },
+    "attempts": {
+      "default": 1,
+      "title": "Attempts",
+      "type": "integer"
+    },
+    "duration_ms": {
+      "default": 0,
+      "title": "Duration Ms",
+      "type": "integer"
+    },
+    "evidence_dir": {
+      "title": "Evidence Dir",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "capability",
+    "tenant",
+    "status",
+    "evidence_dir"
+  ],
+  "title": "ReplayResult",
+  "type": "object"
+}

@@ -1,0 +1,76 @@
+{
+  "$defs": {
+    "Overlay": {
+      "additionalProperties": false,
+      "properties": {
+        "base": {
+          "description": "capability id",
+          "title": "Base",
+          "type": "string"
+        },
+        "base_versions": {
+          "description": "e.g. '>=1.0.0,<2.0.0'; the overlay is refused outside it",
+          "title": "Base Versions",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "patch": {
+          "additionalProperties": true,
+          "description": "merge patch over {targets, screens, inputs, outputs}",
+          "title": "Patch",
+          "type": "object"
+        }
+      },
+      "required": [
+        "base",
+        "base_versions",
+        "reason",
+        "patch"
+      ],
+      "title": "Overlay",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "display_name": {
+      "title": "Display Name",
+      "type": "string"
+    },
+    "app": {
+      "title": "App",
+      "type": "string"
+    },
+    "app_version": {
+      "title": "App Version",
+      "type": "string"
+    },
+    "base_url": {
+      "title": "Base Url",
+      "type": "string"
+    },
+    "overlays": {
+      "items": {
+        "$ref": "#/$defs/Overlay"
+      },
+      "title": "Overlays",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "display_name",
+    "app",
+    "app_version",
+    "base_url"
+  ],
+  "title": "Tenant",
+  "type": "object"
+}

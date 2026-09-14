@@ -1,0 +1,591 @@
+{
+  "$defs": {
+    "Auth": {
+      "additionalProperties": false,
+      "properties": {
+        "capability": {
+          "title": "Capability",
+          "type": "string"
+        },
+        "secrets": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "capability input name -> secret provider key",
+          "title": "Secrets",
+          "type": "object"
+        },
+        "signed_out_screen": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text_matches": "#/$defs/TextMatch",
+                "url_path": "#/$defs/UrlMatch"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextMatch"
+              },
+              {
+                "$ref": "#/$defs/UrlMatch"
+              }
+            ]
+          },
+          "title": "Signed Out Screen",
+          "type": "array"
+        }
+      },
+      "required": [
+        "capability",
+        "secrets",
+        "signed_out_screen"
+      ],
+      "title": "Auth",
+      "type": "object"
+    },
+    "Condition": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "detect": {
+          "description": "All detectors must match.",
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "text_matches": "#/$defs/TextMatch",
+                "url_path": "#/$defs/UrlMatch"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextMatch"
+              },
+              {
+                "$ref": "#/$defs/UrlMatch"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Detect",
+          "type": "array"
+        },
+        "class": {
+          "enum": [
+            "business_outcome",
+            "recoverable",
+            "hard_failure"
+          ],
+          "title": "Class",
+          "type": "string"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message_group": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Regex group of the first text detector used as the message.",
+          "title": "Message Group"
+        },
+        "recovery": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "dismiss": "#/$defs/Dismiss",
+                  "restart": "#/$defs/Restart"
+                },
+                "propertyName": "kind"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/Dismiss"
+                },
+                {
+                  "$ref": "#/$defs/Restart"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recovery"
+        },
+        "max_recoveries": {
+          "default": 2,
+          "title": "Max Recoveries",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "detect",
+        "class",
+        "code"
+      ],
+      "title": "Condition",
+      "type": "object"
+    },
+    "CssLocator": {
+      "additionalProperties": false,
+      "description": "Structural DOM path. Last resort, flagged brittle: legacy markup has no stable ids.",
+      "properties": {
+        "strategy": {
+          "const": "css",
+          "default": "css",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "selector": {
+          "title": "Selector",
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ],
+      "title": "CssLocator",
+      "type": "object"
+    },
+    "Dismiss": {
+      "additionalProperties": false,
+      "description": "Click a known control to clear an interstitial, then keep waiting for the same expectation.",
+      "properties": {
+        "kind": {
+          "const": "dismiss",
+          "default": "dismiss",
+          "title": "Kind",
+          "type": "string"
+        },
+        "locators": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "css": "#/$defs/CssLocator",
+                "label": "#/$defs/LabelLocator",
+                "role": "#/$defs/RoleLocator",
+                "table_cell": "#/$defs/TableCellLocator",
+                "text": "#/$defs/TextLocator"
+              },
+              "propertyName": "strategy"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/RoleLocator"
+              },
+              {
+                "$ref": "#/$defs/LabelLocator"
+              },
+              {
+                "$ref": "#/$defs/TextLocator"
+              },
+              {
+                "$ref": "#/$defs/TableCellLocator"
+              },
+              {
+                "$ref": "#/$defs/CssLocator"
+              }
+            ]
+          },
+          "title": "Locators",
+          "type": "array"
+        },
+        "scope": {
+          "discriminator": {
+            "mapping": {
+              "frame": "#/$defs/FrameScope",
+              "page": "#/$defs/PageScope"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FrameScope"
+            },
+            {
+              "$ref": "#/$defs/PageScope"
+            }
+          ],
+          "title": "Scope"
+        }
+      },
+      "required": [
+        "locators"
+      ],
+      "title": "Dismiss",
+      "type": "object"
+    },
+    "FrameScope": {
+      "additionalProperties": false,
+      "description": "Where a control lives. For web: a frame, matched by name, then URL path as fallback.",
+      "properties": {
+        "kind": {
+          "const": "frame",
+          "default": "frame",
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "url_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url Path"
+        }
+      },
+      "title": "FrameScope",
+      "type": "object"
+    },
+    "LabelLocator": {
+      "additionalProperties": false,
+      "description": "A control of `role` positioned right of / below the visible text `label`. This is how an\noperator finds a field on a table-layout screen with no <label for>. Geometry-based, so it also\nmaps onto screenshot+OCR surfaces.",
+      "properties": {
+        "strategy": {
+          "const": "label",
+          "default": "label",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "label"
+      ],
+      "title": "LabelLocator",
+      "type": "object"
+    },
+    "PageScope": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "page",
+          "default": "page",
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "title": "PageScope",
+      "type": "object"
+    },
+    "Restart": {
+      "additionalProperties": false,
+      "description": "Start the flow again from the entry screen. Only permitted while no irreversible step has run\nin the current attempt, which is what makes restarting safe.",
+      "properties": {
+        "kind": {
+          "const": "restart",
+          "default": "restart",
+          "title": "Kind",
+          "type": "string"
+        },
+        "reauthenticate": {
+          "default": false,
+          "title": "Reauthenticate",
+          "type": "boolean"
+        },
+        "backoff_ms": {
+          "default": 500,
+          "title": "Backoff Ms",
+          "type": "integer"
+        }
+      },
+      "title": "Restart",
+      "type": "object"
+    },
+    "RiskHints": {
+      "additionalProperties": false,
+      "properties": {
+        "irreversible_controls": {
+          "description": "Regexes on control names.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Irreversible Controls",
+          "type": "array"
+        },
+        "safe_controls": {
+          "description": "Regexes on control names.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Safe Controls",
+          "type": "array"
+        }
+      },
+      "title": "RiskHints",
+      "type": "object"
+    },
+    "RoleLocator": {
+      "additionalProperties": false,
+      "description": "Accessibility role + accessible name. Most semantic; survives markup/CSS churn and exists on\ndesktop accessibility trees (UIA/AX) too. Useless when the control has no accessible name.",
+      "properties": {
+        "strategy": {
+          "const": "role",
+          "default": "role",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "name"
+      ],
+      "title": "RoleLocator",
+      "type": "object"
+    },
+    "TableCellLocator": {
+      "additionalProperties": false,
+      "description": "A data cell addressed like a human reads a grid: the row whose cell equals `row_key`, in the\ncolumn headed `column`. Survives row reordering and added rows. With `column: null` it addresses\na key/value grid: the first non-empty cell after the `row_key` cell.",
+      "properties": {
+        "strategy": {
+          "const": "table_cell",
+          "default": "table_cell",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "row_key": {
+          "title": "Row Key",
+          "type": "string"
+        },
+        "column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Column"
+        }
+      },
+      "required": [
+        "row_key"
+      ],
+      "title": "TableCellLocator",
+      "type": "object"
+    },
+    "TextLocator": {
+      "additionalProperties": false,
+      "description": "A clickable element whose visible text equals `text`. Covers non-semantic 'buttons'\n(<td onclick>) that have no role.",
+      "properties": {
+        "strategy": {
+          "const": "text",
+          "default": "text",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextLocator",
+      "type": "object"
+    },
+    "TextMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "text_matches",
+          "default": "text_matches",
+          "title": "Kind",
+          "type": "string"
+        },
+        "scope": {
+          "discriminator": {
+            "mapping": {
+              "frame": "#/$defs/FrameScope",
+              "page": "#/$defs/PageScope"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FrameScope"
+            },
+            {
+              "$ref": "#/$defs/PageScope"
+            }
+          ],
+          "title": "Scope"
+        },
+        "pattern": {
+          "description": "Regex searched in the visible text of the scope.",
+          "title": "Pattern",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pattern"
+      ],
+      "title": "TextMatch",
+      "type": "object"
+    },
+    "UrlMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "url_path",
+          "default": "url_path",
+          "title": "Kind",
+          "type": "string"
+        },
+        "scope": {
+          "discriminator": {
+            "mapping": {
+              "frame": "#/$defs/FrameScope",
+              "page": "#/$defs/PageScope"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FrameScope"
+            },
+            {
+              "$ref": "#/$defs/PageScope"
+            }
+          ],
+          "title": "Scope"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "title": "UrlMatch",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "vendor": {
+      "title": "Vendor",
+      "type": "string"
+    },
+    "surface": {
+      "enum": [
+        "web",
+        "desktop"
+      ],
+      "title": "Surface",
+      "type": "string"
+    },
+    "entry_path": {
+      "title": "Entry Path",
+      "type": "string"
+    },
+    "auth": {
+      "$ref": "#/$defs/Auth"
+    },
+    "conditions": {
+      "items": {
+        "$ref": "#/$defs/Condition"
+      },
+      "title": "Conditions",
+      "type": "array"
+    },
+    "risk": {
+      "$ref": "#/$defs/RiskHints"
+    },
+    "sensitive_labels": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Sensitive Labels",
+      "type": "array"
+    },
+    "max_attempts": {
+      "default": 3,
+      "title": "Max Attempts",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "vendor",
+    "surface",
+    "entry_path",
+    "auth",
+    "conditions"
+  ],
+  "title": "AppProfile",
+  "type": "object"
+}

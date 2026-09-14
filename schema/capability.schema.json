@@ -1,0 +1,1488 @@
+{
+  "$defs": {
+    "AppRef": {
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "description": "Vendor product id; conditions/auth come from its app profile.",
+          "title": "Product",
+          "type": "string"
+        },
+        "compatible_versions": {
+          "description": "Version range this flow is known to work on, e.g. '>=4.2,<5'.",
+          "title": "Compatible Versions",
+          "type": "string"
+        },
+        "surface": {
+          "default": "web",
+          "enum": [
+            "web",
+            "desktop"
+          ],
+          "title": "Surface",
+          "type": "string"
+        }
+      },
+      "required": [
+        "product",
+        "compatible_versions"
+      ],
+      "title": "AppRef",
+      "type": "object"
+    },
+    "ClickStep": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "intent": {
+          "description": "What this step is for, in operator language.",
+          "title": "Intent",
+          "type": "string"
+        },
+        "screen": {
+          "description": "Screen this step acts on; checked before acting.",
+          "title": "Screen",
+          "type": "string"
+        },
+        "origin": {
+          "default": "model",
+          "enum": [
+            "model",
+            "human",
+            "author"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "action": {
+          "const": "click",
+          "default": "click",
+          "title": "Action",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "risk": {
+          "default": "safe",
+          "enum": [
+            "safe",
+            "reversible",
+            "irreversible"
+          ],
+          "title": "Risk",
+          "type": "string"
+        },
+        "expect": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expectation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "intent",
+        "screen",
+        "target"
+      ],
+      "title": "ClickStep",
+      "type": "object"
+    },
+    "CssLocator": {
+      "additionalProperties": false,
+      "description": "Structural DOM path. Last resort, flagged brittle: legacy markup has no stable ids.",
+      "properties": {
+        "strategy": {
+          "const": "css",
+          "default": "css",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "selector": {
+          "title": "Selector",
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ],
+      "title": "CssLocator",
+      "type": "object"
+    },
+    "Expectation": {
+      "additionalProperties": false,
+      "properties": {
+        "screen": {
+          "title": "Screen",
+          "type": "string"
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "title": "Timeout Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "screen"
+      ],
+      "title": "Expectation",
+      "type": "object"
+    },
+    "ExtractStep": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "intent": {
+          "description": "What this step is for, in operator language.",
+          "title": "Intent",
+          "type": "string"
+        },
+        "screen": {
+          "description": "Screen this step acts on; checked before acting.",
+          "title": "Screen",
+          "type": "string"
+        },
+        "origin": {
+          "default": "model",
+          "enum": [
+            "model",
+            "human",
+            "author"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "action": {
+          "const": "extract",
+          "default": "extract",
+          "title": "Action",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "output": {
+          "title": "Output",
+          "type": "string"
+        },
+        "risk": {
+          "default": "safe",
+          "enum": [
+            "safe",
+            "reversible",
+            "irreversible"
+          ],
+          "title": "Risk",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "intent",
+        "screen",
+        "target",
+        "output"
+      ],
+      "title": "ExtractStep",
+      "type": "object"
+    },
+    "FillStep": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "intent": {
+          "description": "What this step is for, in operator language.",
+          "title": "Intent",
+          "type": "string"
+        },
+        "screen": {
+          "description": "Screen this step acts on; checked before acting.",
+          "title": "Screen",
+          "type": "string"
+        },
+        "origin": {
+          "default": "model",
+          "enum": [
+            "model",
+            "human",
+            "author"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "action": {
+          "const": "fill",
+          "default": "fill",
+          "title": "Action",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ParamRef"
+            },
+            {
+              "$ref": "#/$defs/SecretRef"
+            },
+            {
+              "$ref": "#/$defs/Literal_"
+            }
+          ],
+          "title": "Value"
+        },
+        "risk": {
+          "default": "reversible",
+          "enum": [
+            "safe",
+            "reversible",
+            "irreversible"
+          ],
+          "title": "Risk",
+          "type": "string"
+        },
+        "expect": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expectation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "intent",
+        "screen",
+        "target",
+        "value"
+      ],
+      "title": "FillStep",
+      "type": "object"
+    },
+    "Fingerprint": {
+      "additionalProperties": false,
+      "description": "What the control looked like when recorded. Not used to act; used to explain drift.",
+      "properties": {
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        },
+        "text": {
+          "default": "",
+          "title": "Text",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "maxItems": 4,
+              "minItems": 4,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bbox"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "title": "Fingerprint",
+      "type": "object"
+    },
+    "FrameScope": {
+      "additionalProperties": false,
+      "description": "Where a control lives. For web: a frame, matched by name, then URL path as fallback.",
+      "properties": {
+        "kind": {
+          "const": "frame",
+          "default": "frame",
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "url_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url Path"
+        }
+      },
+      "title": "FrameScope",
+      "type": "object"
+    },
+    "InputSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "string",
+            "integer",
+            "money",
+            "enum",
+            "date"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "classification": {
+          "default": "internal",
+          "enum": [
+            "public",
+            "internal",
+            "financial",
+            "pii",
+            "secret"
+          ],
+          "title": "Classification",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Regex the raw string form must fully match.",
+          "title": "Pattern"
+        },
+        "values": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Allowed values for enum inputs.",
+          "title": "Values"
+        },
+        "source": {
+          "default": "caller",
+          "enum": [
+            "caller",
+            "secret"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "description"
+      ],
+      "title": "InputSpec",
+      "type": "object"
+    },
+    "LabelLocator": {
+      "additionalProperties": false,
+      "description": "A control of `role` positioned right of / below the visible text `label`. This is how an\noperator finds a field on a table-layout screen with no <label for>. Geometry-based, so it also\nmaps onto screenshot+OCR surfaces.",
+      "properties": {
+        "strategy": {
+          "const": "label",
+          "default": "label",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "label"
+      ],
+      "title": "LabelLocator",
+      "type": "object"
+    },
+    "Literal_": {
+      "additionalProperties": false,
+      "properties": {
+        "literal": {
+          "title": "Literal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "literal"
+      ],
+      "title": "Literal_",
+      "type": "object"
+    },
+    "ManualStep": {
+      "additionalProperties": false,
+      "description": "A step a human performed during discovery. Replay escalates here instead of guessing.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "intent": {
+          "description": "What this step is for, in operator language.",
+          "title": "Intent",
+          "type": "string"
+        },
+        "screen": {
+          "description": "Screen this step acts on; checked before acting.",
+          "title": "Screen",
+          "type": "string"
+        },
+        "origin": {
+          "default": "model",
+          "enum": [
+            "model",
+            "human",
+            "author"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "action": {
+          "const": "manual",
+          "default": "manual",
+          "title": "Action",
+          "type": "string"
+        },
+        "instructions": {
+          "title": "Instructions",
+          "type": "string"
+        },
+        "risk": {
+          "default": "irreversible",
+          "enum": [
+            "safe",
+            "reversible",
+            "irreversible"
+          ],
+          "title": "Risk",
+          "type": "string"
+        },
+        "expect": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expectation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "intent",
+        "screen",
+        "instructions"
+      ],
+      "title": "ManualStep",
+      "type": "object"
+    },
+    "Outcome": {
+      "additionalProperties": false,
+      "description": "A business outcome this capability can legitimately return. `code` must match a\nbusiness_outcome condition in the app profile.",
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "steps": {
+          "description": "Steps after which it can occur (empty = any).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code",
+        "description"
+      ],
+      "title": "Outcome",
+      "type": "object"
+    },
+    "OutputSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "string",
+            "integer",
+            "money",
+            "date"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "classification": {
+          "default": "internal",
+          "enum": [
+            "public",
+            "internal",
+            "financial",
+            "pii",
+            "secret"
+          ],
+          "title": "Classification",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "description"
+      ],
+      "title": "OutputSpec",
+      "type": "object"
+    },
+    "PageScope": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "page",
+          "default": "page",
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "title": "PageScope",
+      "type": "object"
+    },
+    "ParamRef": {
+      "additionalProperties": false,
+      "properties": {
+        "param": {
+          "title": "Param",
+          "type": "string"
+        }
+      },
+      "required": [
+        "param"
+      ],
+      "title": "ParamRef",
+      "type": "object"
+    },
+    "PressStep": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "intent": {
+          "description": "What this step is for, in operator language.",
+          "title": "Intent",
+          "type": "string"
+        },
+        "screen": {
+          "description": "Screen this step acts on; checked before acting.",
+          "title": "Screen",
+          "type": "string"
+        },
+        "origin": {
+          "default": "model",
+          "enum": [
+            "model",
+            "human",
+            "author"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "action": {
+          "const": "press",
+          "default": "press",
+          "title": "Action",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "key": {
+          "enum": [
+            "Enter",
+            "Tab",
+            "Escape"
+          ],
+          "title": "Key",
+          "type": "string"
+        },
+        "risk": {
+          "default": "safe",
+          "enum": [
+            "safe",
+            "reversible",
+            "irreversible"
+          ],
+          "title": "Risk",
+          "type": "string"
+        },
+        "expect": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expectation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "intent",
+        "screen",
+        "target",
+        "key"
+      ],
+      "title": "PressStep",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "enum": [
+            "discovered",
+            "authored"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Id"
+        },
+        "recorded_at": {
+          "title": "Recorded At",
+          "type": "string"
+        },
+        "recorded_on": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "tenant, app_version, ...",
+          "title": "Recorded On",
+          "type": "object"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "goal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Goal"
+        },
+        "human_steps": {
+          "default": 0,
+          "title": "Human Steps",
+          "type": "integer"
+        },
+        "verification": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Result of the post-record verification replay.",
+          "title": "Verification"
+        }
+      },
+      "required": [
+        "method",
+        "recorded_at"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Review": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "draft",
+          "enum": [
+            "draft",
+            "approved",
+            "deprecated"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "approved_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Approved By"
+        },
+        "approved_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Approved At"
+        },
+        "approved_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "procedure_digest() at approval time",
+          "title": "Approved Digest"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        }
+      },
+      "title": "Review",
+      "type": "object"
+    },
+    "RoleLocator": {
+      "additionalProperties": false,
+      "description": "Accessibility role + accessible name. Most semantic; survives markup/CSS churn and exists on\ndesktop accessibility trees (UIA/AX) too. Useless when the control has no accessible name.",
+      "properties": {
+        "strategy": {
+          "const": "role",
+          "default": "role",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "name"
+      ],
+      "title": "RoleLocator",
+      "type": "object"
+    },
+    "Screen": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "identify": {
+          "description": "All rules must hold.",
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "target_present": "#/$defs/TargetRule",
+                "text_present": "#/$defs/TextRule",
+                "url_path": "#/$defs/UrlPathRule"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/UrlPathRule"
+              },
+              {
+                "$ref": "#/$defs/TextRule"
+              },
+              {
+                "$ref": "#/$defs/TargetRule"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Identify",
+          "type": "array"
+        }
+      },
+      "required": [
+        "description",
+        "identify"
+      ],
+      "title": "Screen",
+      "type": "object"
+    },
+    "SecretRef": {
+      "additionalProperties": false,
+      "properties": {
+        "secret": {
+          "title": "Secret",
+          "type": "string"
+        }
+      },
+      "required": [
+        "secret"
+      ],
+      "title": "SecretRef",
+      "type": "object"
+    },
+    "SelectStep": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "intent": {
+          "description": "What this step is for, in operator language.",
+          "title": "Intent",
+          "type": "string"
+        },
+        "screen": {
+          "description": "Screen this step acts on; checked before acting.",
+          "title": "Screen",
+          "type": "string"
+        },
+        "origin": {
+          "default": "model",
+          "enum": [
+            "model",
+            "human",
+            "author"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "action": {
+          "const": "select",
+          "default": "select",
+          "title": "Action",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ParamRef"
+            },
+            {
+              "$ref": "#/$defs/SecretRef"
+            },
+            {
+              "$ref": "#/$defs/Literal_"
+            }
+          ],
+          "title": "Value"
+        },
+        "match": {
+          "default": "label",
+          "description": "label_prefix lets callers pass a stable code ('0000') for options like '0000 REGULAR SHARES'.",
+          "enum": [
+            "label",
+            "label_prefix",
+            "value"
+          ],
+          "title": "Match",
+          "type": "string"
+        },
+        "risk": {
+          "default": "reversible",
+          "enum": [
+            "safe",
+            "reversible",
+            "irreversible"
+          ],
+          "title": "Risk",
+          "type": "string"
+        },
+        "expect": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expectation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "intent",
+        "screen",
+        "target",
+        "value"
+      ],
+      "title": "SelectStep",
+      "type": "object"
+    },
+    "SuccessCriteria": {
+      "additionalProperties": false,
+      "properties": {
+        "screen": {
+          "title": "Screen",
+          "type": "string"
+        },
+        "outputs_required": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Outputs Required",
+          "type": "array"
+        }
+      },
+      "required": [
+        "screen"
+      ],
+      "title": "SuccessCriteria",
+      "type": "object"
+    },
+    "TableCellLocator": {
+      "additionalProperties": false,
+      "description": "A data cell addressed like a human reads a grid: the row whose cell equals `row_key`, in the\ncolumn headed `column`. Survives row reordering and added rows. With `column: null` it addresses\na key/value grid: the first non-empty cell after the `row_key` cell.",
+      "properties": {
+        "strategy": {
+          "const": "table_cell",
+          "default": "table_cell",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "row_key": {
+          "title": "Row Key",
+          "type": "string"
+        },
+        "column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Column"
+        }
+      },
+      "required": [
+        "row_key"
+      ],
+      "title": "TableCellLocator",
+      "type": "object"
+    },
+    "Target": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "scope": {
+          "discriminator": {
+            "mapping": {
+              "frame": "#/$defs/FrameScope",
+              "page": "#/$defs/PageScope"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FrameScope"
+            },
+            {
+              "$ref": "#/$defs/PageScope"
+            }
+          ],
+          "title": "Scope"
+        },
+        "locators": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "css": "#/$defs/CssLocator",
+                "label": "#/$defs/LabelLocator",
+                "role": "#/$defs/RoleLocator",
+                "table_cell": "#/$defs/TableCellLocator",
+                "text": "#/$defs/TextLocator"
+              },
+              "propertyName": "strategy"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/RoleLocator"
+              },
+              {
+                "$ref": "#/$defs/LabelLocator"
+              },
+              {
+                "$ref": "#/$defs/TextLocator"
+              },
+              {
+                "$ref": "#/$defs/TableCellLocator"
+              },
+              {
+                "$ref": "#/$defs/CssLocator"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Locators",
+          "type": "array"
+        },
+        "fingerprint": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fingerprint"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Why these strategies, in this order.",
+          "title": "Rationale"
+        }
+      },
+      "required": [
+        "description",
+        "locators"
+      ],
+      "title": "Target",
+      "type": "object"
+    },
+    "TargetRule": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "target_present",
+          "default": "target_present",
+          "title": "Kind",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "title": "TargetRule",
+      "type": "object"
+    },
+    "TextLocator": {
+      "additionalProperties": false,
+      "description": "A clickable element whose visible text equals `text`. Covers non-semantic 'buttons'\n(<td onclick>) that have no role.",
+      "properties": {
+        "strategy": {
+          "const": "text",
+          "default": "text",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextLocator",
+      "type": "object"
+    },
+    "TextRule": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "text_present",
+          "default": "text_present",
+          "title": "Kind",
+          "type": "string"
+        },
+        "scope": {
+          "discriminator": {
+            "mapping": {
+              "frame": "#/$defs/FrameScope",
+              "page": "#/$defs/PageScope"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FrameScope"
+            },
+            {
+              "$ref": "#/$defs/PageScope"
+            }
+          ],
+          "title": "Scope"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextRule",
+      "type": "object"
+    },
+    "UrlPathRule": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "url_path",
+          "default": "url_path",
+          "title": "Kind",
+          "type": "string"
+        },
+        "scope": {
+          "discriminator": {
+            "mapping": {
+              "frame": "#/$defs/FrameScope",
+              "page": "#/$defs/PageScope"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FrameScope"
+            },
+            {
+              "$ref": "#/$defs/PageScope"
+            }
+          ],
+          "title": "Scope"
+        },
+        "path": {
+          "description": "Exact path, query string ignored (canonical form).",
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "title": "UrlPathRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "rote.capability/v1",
+      "default": "rote.capability/v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Version",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "app": {
+      "$ref": "#/$defs/AppRef"
+    },
+    "risk": {
+      "description": "Worst effect on the system of record. Form filling alone does not raise it.",
+      "enum": [
+        "safe",
+        "reversible",
+        "irreversible"
+      ],
+      "title": "Risk",
+      "type": "string"
+    },
+    "inputs": {
+      "additionalProperties": {
+        "$ref": "#/$defs/InputSpec"
+      },
+      "title": "Inputs",
+      "type": "object"
+    },
+    "outputs": {
+      "additionalProperties": {
+        "$ref": "#/$defs/OutputSpec"
+      },
+      "title": "Outputs",
+      "type": "object"
+    },
+    "outcomes": {
+      "items": {
+        "$ref": "#/$defs/Outcome"
+      },
+      "title": "Outcomes",
+      "type": "array"
+    },
+    "entry_screen": {
+      "title": "Entry Screen",
+      "type": "string"
+    },
+    "screens": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Screen"
+      },
+      "title": "Screens",
+      "type": "object"
+    },
+    "targets": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Target"
+      },
+      "title": "Targets",
+      "type": "object"
+    },
+    "steps": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "click": "#/$defs/ClickStep",
+            "extract": "#/$defs/ExtractStep",
+            "fill": "#/$defs/FillStep",
+            "manual": "#/$defs/ManualStep",
+            "press": "#/$defs/PressStep",
+            "select": "#/$defs/SelectStep"
+          },
+          "propertyName": "action"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/ClickStep"
+          },
+          {
+            "$ref": "#/$defs/FillStep"
+          },
+          {
+            "$ref": "#/$defs/SelectStep"
+          },
+          {
+            "$ref": "#/$defs/PressStep"
+          },
+          {
+            "$ref": "#/$defs/ExtractStep"
+          },
+          {
+            "$ref": "#/$defs/ManualStep"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Steps",
+      "type": "array"
+    },
+    "success": {
+      "$ref": "#/$defs/SuccessCriteria"
+    },
+    "review": {
+      "$ref": "#/$defs/Review"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "title",
+    "description",
+    "app",
+    "risk",
+    "entry_screen",
+    "screens",
+    "targets",
+    "steps",
+    "success",
+    "provenance"
+  ],
+  "title": "Capability",
+  "type": "object"
+}
