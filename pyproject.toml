@@ -1,0 +1,42 @@
+[project]
+name = "rote"
+version = "0.1.0"
+description = "Record-once, replay-many computer-use automation for legacy back-office UIs"
+requires-python = ">=3.11"
+dependencies = [
+  "anthropic>=1.5",
+  "playwright>=1.50",
+  "pydantic>=2.10",
+  "pyyaml>=6",
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "flask>=3",
+  "pillow>=11",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "httpx>=0.27", "ruff>=0.6"]
+
+[project.scripts]
+rote = "rote.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["rote", "targetapp"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501", "B008", "UP007"]
