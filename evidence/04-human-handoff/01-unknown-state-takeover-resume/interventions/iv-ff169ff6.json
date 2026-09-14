@@ -1,0 +1,68 @@
+{
+  "id": "iv-ff169ff6",
+  "session_id": "20260914T221600Z-replay-5c2df3",
+  "kind": "unknown_state",
+  "reason": "expected screen 'member_detail' (post) did not appear and no known condition matched",
+  "context": {
+    "capability": "keystone.coreserv.member_savings_balance@1.0.0",
+    "tenant": "prairie",
+    "step": "s03_submit_the_member_search",
+    "dom": "dom/escalate-unknown_state",
+    "expected_screen": "member_detail",
+    "phase": "post",
+    "observed": {
+      "paths": {
+        "page": "/main",
+        "frame \"banner\"": "/banner",
+        "frame \"nav\"": "/nav",
+        "frame \"content\"": "/mi/detail"
+      },
+      "text_excerpt": "PRAIRIE FEDERAL CREDIT UNION\tCORESERV 4.2.1 \u00a0 OPERATOR: teller01\nFUNCTIONS\n\u25b8 MEMBER INQUIRY\n\u25b8 TELLER HOME\n\u25b8 GENERAL LEDGER\n\nSIGN OFF\nPRINT SERVICES\n\nNO DEFAULT PRINTER CONFIGURED FOR WORKSTATION WS-0417.\n",
+      "screen_rules": [
+        {
+          "rule": "url_path /mi/detail in frame:content:None",
+          "ok": true,
+          "actual": "/mi/detail",
+          "scope_missing": false
+        },
+        {
+          "rule": "text 'MEMBER DETAIL' in frame:content:None",
+          "ok": false,
+          "scope_missing": false
+        }
+      ]
+    }
+  },
+  "screenshot": "screens/002-escalate-unknown_state.png",
+  "created_at": "2026-09-14T22:16:12+00:00",
+  "status": "resolved",
+  "operator": "operator.demo",
+  "decision": "resume",
+  "note": "Workstation printer prompt (not in the app profile) covered member detail. Clicked DISMISS; member detail showing. Proposing a print_services recoverable condition for the profile.",
+  "human_actions": [
+    {
+      "at": "2026-09-14T22:16:40+00:00",
+      "channel": "dom",
+      "path": "/mi/detail",
+      "dom_event": "click",
+      "target": {
+        "tag": "input",
+        "type": "button",
+        "field": null,
+        "text": "DISMISS"
+      }
+    },
+    {
+      "at": "2026-09-14T22:16:40+00:00",
+      "channel": "console",
+      "input": "click",
+      "x": 232,
+      "y": 134
+    }
+  ],
+  "allowed_decisions": [
+    "resume",
+    "completed",
+    "abort"
+  ]
+}

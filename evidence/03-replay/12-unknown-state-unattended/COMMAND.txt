@@ -1,0 +1,1 @@
+rote replay keystone.coreserv.member_savings_balance --inject '{"unknown_modal_next":1,"unknown_modal_path":"/mi/detail"}' --input member_number=12345

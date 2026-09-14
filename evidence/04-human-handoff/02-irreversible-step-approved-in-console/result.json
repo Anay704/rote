@@ -1,0 +1,32 @@
+{
+  "run_id": "20260914T221704Z-replay-31d7ab",
+  "capability": "keystone.coreserv.open_sub_account@1.0.0",
+  "tenant": "prairie",
+  "status": "succeeded",
+  "outputs": {
+    "confirmation": "S**********************************************2"
+  },
+  "outcome": null,
+  "failure": null,
+  "escalations": [
+    {
+      "intervention_id": "iv-50d7c5f3",
+      "kind": "approval",
+      "reason": "step 'Confirm and open the sub-account' is irreversible and needs human approval",
+      "step_id": "s10_confirm_and_open",
+      "resolution": {
+        "status": "resolved",
+        "decision": "approve",
+        "operator": "operator.demo",
+        "note": "Checked the review screen against the member's request (12-month certificate, 500.00 from suffix 0000). Approved.",
+        "human_actions": []
+      }
+    }
+  ],
+  "recoveries": [],
+  "warnings": [],
+  "steps_executed": 11,
+  "attempts": 1,
+  "duration_ms": 21047,
+  "evidence_dir": "runs/20260914T221704Z-replay-31d7ab"
+}

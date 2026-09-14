@@ -1,0 +1,21 @@
+{"kind": "replay", "tenant": "lakeshore", "app": "keystone.coreserv", "app_version": "4.3.0", "base_url": "http://127.0.0.1:8602", "headed": false, "t": 0.238, "at": "2026-09-14T22:22:00+00:00", "event": "session.open"}
+{"capability": "keystone.coreserv.member_savings_balance@1.0.0", "tenant": "lakeshore", "app_version": "4.3.0", "overlays": ["lakeshore:keystone.coreserv.member_savings_balance (menu frame named 'menu'; field, button, product and column labels configured differently)"], "inputs": {"member_number": "[pii:5 chars]"}, "t": 0.238, "at": "2026-09-14T22:22:00+00:00", "event": "replay.start"}
+{"capability": "keystone.coreserv.signon@1.0.0", "t": 0.513, "at": "2026-09-14T22:22:00+00:00", "event": "auth.start"}
+{"step": "enter_user", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.822, "at": "2026-09-14T22:22:01+00:00", "event": "policy.decision"}
+{"step": "enter_user", "action": "fill", "intent": "Type operator user id", "strategy": "label", "risk": "reversible", "ms": 68, "t": 0.89, "at": "2026-09-14T22:22:01+00:00", "event": "step.done"}
+{"step": "enter_password", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.9, "at": "2026-09-14T22:22:01+00:00", "event": "policy.decision"}
+{"step": "enter_password", "action": "fill", "intent": "Type operator password", "strategy": "label", "risk": "reversible", "ms": 79, "t": 0.979, "at": "2026-09-14T22:22:01+00:00", "event": "step.done"}
+{"step": "submit", "allowed": true, "risk": "safe", "reason": "allowed", "t": 0.994, "at": "2026-09-14T22:22:01+00:00", "event": "policy.decision"}
+{"step": "submit", "action": "click", "intent": "Submit sign on", "strategy": "role", "risk": "safe", "ms": 88, "t": 1.083, "at": "2026-09-14T22:22:01+00:00", "event": "step.done"}
+{"t": 1.088, "at": "2026-09-14T22:22:01+00:00", "event": "auth.ok"}
+{"step": "s01_open_the_member_inquiry", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.412, "at": "2026-09-14T22:22:01+00:00", "event": "policy.decision"}
+{"step": "s01_open_the_member_inquiry", "action": "click", "intent": "Open the Member Inquiry function to look up a member", "strategy": "role", "risk": "safe", "ms": 81, "t": 1.493, "at": "2026-09-14T22:22:01+00:00", "event": "step.done"}
+{"step": "s02_enter_the_member_number", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.51, "at": "2026-09-14T22:22:01+00:00", "event": "policy.decision"}
+{"step": "s02_enter_the_member_number", "action": "fill", "intent": "Enter the member number to search", "strategy": "label", "risk": "reversible", "ms": 60, "t": 1.57, "at": "2026-09-14T22:22:01+00:00", "event": "step.done"}
+{"step": "s03_submit_the_member_search", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.577, "at": "2026-09-14T22:22:01+00:00", "event": "policy.decision"}
+{"step": "s03_submit_the_member_search", "action": "click", "intent": "Submit the member search", "strategy": "text", "risk": "safe", "ms": 69, "t": 1.646, "at": "2026-09-14T22:22:01+00:00", "event": "step.done"}
+{"step": "s04_read_the_current_balance", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.662, "at": "2026-09-14T22:22:01+00:00", "event": "policy.decision"}
+{"step": "s04_read_the_current_balance", "action": "extract", "intent": "Read the current balance of the REGULAR SHARES (savings) account", "strategy": "table_cell", "risk": "safe", "ms": 1, "t": 1.662, "at": "2026-09-14T22:22:01+00:00", "event": "step.done"}
+{"screen": "member_detail", "screenshot": "screens/001-success.png", "t": 1.74, "at": "2026-09-14T22:22:01+00:00", "event": "replay.checkpoint_verified"}
+{"status": "succeeded", "duration_ms": 1502, "steps": 4, "attempts": 1, "t": 1.74, "at": "2026-09-14T22:22:01+00:00", "event": "replay.end"}
+{"t": 1.74, "at": "2026-09-14T22:22:01+00:00", "event": "session.close"}

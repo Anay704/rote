@@ -1,0 +1,1 @@
+rote replay keystone.coreserv.member_savings_balance --reset --tenant lakeshore_frame_only --input member_number=12345

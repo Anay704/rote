@@ -1,0 +1,9 @@
+$ rote ask "Two members called in. What is the savings balance for member 20417, and for member 55555?" --tenant prairie
+[catalog] 3 tool(s): ['keystone_coreserv_member_savings_balance', 'keystone_coreserv_open_sub_account', 'keystone_coreserv_open_sub_account_review']
+[agent -> keystone_coreserv_member_savings_balance] {"member_number": "20417"}
+[replay <- succeeded] run 20260914T221741Z-replay-212225 in 1777 ms
+[agent -> keystone_coreserv_member_savings_balance] {"member_number": "55555"}
+[replay <- business_outcome] run 20260914T221743Z-replay-5ba4f3 in 1429 ms
+
+- **Member 20417:** REGULAR SHARES balance is **$[financial - shown to the staff user; redacted in this saved copy]**
+- **Member 55555:** No record found — the member number doesn't exist in the core system. Worth re-confirming the number with the caller.

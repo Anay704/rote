@@ -1,0 +1,41 @@
+{
+  "run_id": "20260914T222136Z-replay-5f575d",
+  "capability": "keystone.coreserv.member_savings_balance@1.0.0",
+  "tenant": "prairie",
+  "status": "failed",
+  "outputs": null,
+  "outcome": null,
+  "failure": {
+    "code": "RECOVERY_EXHAUSTED",
+    "message": "HOST_SYSTEM_ERROR recurred 3 times (limit 2)",
+    "step_id": "s03_submit_the_member_search",
+    "step_intent": "Submit the member search",
+    "expected": "condition to clear",
+    "observed": "TRANSACTION ABORTED (ABEND S0C7).",
+    "retryable": true,
+    "evidence": {
+      "screenshot": "screens/003-fail-s03_submit_the_member_search.png",
+      "dom": "dom/fail-s03_submit_the_member_search"
+    }
+  },
+  "escalations": [],
+  "recoveries": [
+    {
+      "condition": "transient_system_error",
+      "action": "restart",
+      "step_id": "s03_submit_the_member_search",
+      "attempt": 1
+    },
+    {
+      "condition": "transient_system_error",
+      "action": "restart",
+      "step_id": "s03_submit_the_member_search",
+      "attempt": 2
+    }
+  ],
+  "warnings": [],
+  "steps_executed": 9,
+  "attempts": 3,
+  "duration_ms": 4196,
+  "evidence_dir": "runs/20260914T222136Z-replay-5f575d"
+}

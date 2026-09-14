@@ -1,0 +1,23 @@
+{"kind": "replay", "tenant": "prairie", "app": "keystone.coreserv", "app_version": "4.2.1", "base_url": "http://127.0.0.1:8601", "headed": false, "t": 0.247, "at": "2026-09-14T22:21:20+00:00", "event": "session.open"}
+{"capability": "keystone.coreserv.member_savings_balance@1.0.0", "tenant": "prairie", "app_version": "4.2.1", "overlays": [], "inputs": {"member_number": "[pii:5 chars]"}, "t": 0.247, "at": "2026-09-14T22:21:20+00:00", "event": "replay.start"}
+{"capability": "keystone.coreserv.signon@1.0.0", "t": 0.523, "at": "2026-09-14T22:21:20+00:00", "event": "auth.start"}
+{"step": "enter_user", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.833, "at": "2026-09-14T22:21:20+00:00", "event": "policy.decision"}
+{"step": "enter_user", "action": "fill", "intent": "Type operator user id", "strategy": "label", "risk": "reversible", "ms": 69, "t": 0.902, "at": "2026-09-14T22:21:20+00:00", "event": "step.done"}
+{"step": "enter_password", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.911, "at": "2026-09-14T22:21:20+00:00", "event": "policy.decision"}
+{"step": "enter_password", "action": "fill", "intent": "Type operator password", "strategy": "label", "risk": "reversible", "ms": 77, "t": 0.988, "at": "2026-09-14T22:21:20+00:00", "event": "step.done"}
+{"step": "submit", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.0, "at": "2026-09-14T22:21:20+00:00", "event": "policy.decision"}
+{"step": "submit", "action": "click", "intent": "Submit sign on", "strategy": "role", "risk": "safe", "ms": 82, "t": 1.083, "at": "2026-09-14T22:21:21+00:00", "event": "step.done"}
+{"t": 1.088, "at": "2026-09-14T22:21:21+00:00", "event": "auth.ok"}
+{"step": "s01_open_the_member_inquiry", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.409, "at": "2026-09-14T22:21:21+00:00", "event": "policy.decision"}
+{"step": "s01_open_the_member_inquiry", "action": "click", "intent": "Open the Member Inquiry function to look up a member", "strategy": "role", "risk": "safe", "ms": 84, "t": 1.494, "at": "2026-09-14T22:21:21+00:00", "event": "step.done"}
+{"step": "s02_enter_the_member_number", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.512, "at": "2026-09-14T22:21:21+00:00", "event": "policy.decision"}
+{"step": "s02_enter_the_member_number", "action": "fill", "intent": "Enter the member number to search", "strategy": "label", "risk": "reversible", "ms": 59, "t": 1.571, "at": "2026-09-14T22:21:21+00:00", "event": "step.done"}
+{"step": "s03_submit_the_member_search", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.581, "at": "2026-09-14T22:21:21+00:00", "event": "policy.decision"}
+{"step": "s03_submit_the_member_search", "action": "click", "intent": "Submit the member search", "strategy": "text", "risk": "safe", "ms": 66, "t": 1.646, "at": "2026-09-14T22:21:21+00:00", "event": "step.done"}
+{"condition": "member_alert", "klass": "recoverable", "code": "MEMBER_ALERT", "step": "s03_submit_the_member_search", "message": "Informational member alert interstitial; acknowledging it is read-only.", "t": 1.648, "at": "2026-09-14T22:21:21+00:00", "event": "condition.detected"}
+{"condition": "member_alert", "action": "dismiss", "screenshot": "screens/001-recover-member_alert.png", "t": 1.704, "at": "2026-09-14T22:21:21+00:00", "event": "recovery.apply"}
+{"step": "s04_read_the_current_balance", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.967, "at": "2026-09-14T22:21:21+00:00", "event": "policy.decision"}
+{"step": "s04_read_the_current_balance", "action": "extract", "intent": "Read the current balance of the REGULAR SHARES (savings) account", "strategy": "table_cell", "risk": "safe", "ms": 1, "t": 1.968, "at": "2026-09-14T22:21:21+00:00", "event": "step.done"}
+{"screen": "member_detail", "screenshot": "screens/002-success.png", "t": 2.011, "at": "2026-09-14T22:21:21+00:00", "event": "replay.checkpoint_verified"}
+{"status": "succeeded", "duration_ms": 1764, "steps": 4, "attempts": 1, "t": 2.011, "at": "2026-09-14T22:21:21+00:00", "event": "replay.end"}
+{"t": 2.011, "at": "2026-09-14T22:21:21+00:00", "event": "session.close"}

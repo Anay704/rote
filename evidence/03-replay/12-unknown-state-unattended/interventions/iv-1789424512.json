@@ -1,0 +1,48 @@
+{
+  "id": "iv-1789424512",
+  "session_id": "20260914T222140Z-replay-0bd342",
+  "kind": "unknown_state",
+  "reason": "expected screen 'member_detail' (post) did not appear and no known condition matched",
+  "context": {
+    "capability": "keystone.coreserv.member_savings_balance@1.0.0",
+    "tenant": "prairie",
+    "step": "s03_submit_the_member_search",
+    "dom": "dom/escalate-unknown_state",
+    "expected_screen": "member_detail",
+    "phase": "post",
+    "observed": {
+      "paths": {
+        "page": "/main",
+        "frame \"banner\"": "/banner",
+        "frame \"nav\"": "/nav",
+        "frame \"content\"": "/mi/detail"
+      },
+      "text_excerpt": "PRAIRIE FEDERAL CREDIT UNION\tCORESERV 4.2.1 \u00a0 OPERATOR: teller01\nFUNCTIONS\n\u25b8 MEMBER INQUIRY\n\u25b8 TELLER HOME\n\u25b8 GENERAL LEDGER\n\nSIGN OFF\nPRINT SERVICES\n\nNO DEFAULT PRINTER CONFIGURED FOR WORKSTATION WS-0417.\n",
+      "screen_rules": [
+        {
+          "rule": "url_path /mi/detail in frame:content:None",
+          "ok": true,
+          "actual": "/mi/detail",
+          "scope_missing": false
+        },
+        {
+          "rule": "text 'MEMBER DETAIL' in frame:content:None",
+          "ok": false,
+          "scope_missing": false
+        }
+      ]
+    }
+  },
+  "screenshot": "screens/002-escalate-unknown_state.png",
+  "created_at": "2026-09-14T22:21:52+00:00",
+  "status": "open",
+  "operator": null,
+  "decision": null,
+  "note": null,
+  "human_actions": [],
+  "allowed_decisions": [
+    "resume",
+    "completed",
+    "abort"
+  ]
+}

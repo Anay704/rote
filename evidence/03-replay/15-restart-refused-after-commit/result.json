@@ -1,0 +1,35 @@
+{
+  "run_id": "20260914T222157Z-replay-432f9d",
+  "capability": "keystone.coreserv.open_sub_account@1.0.0",
+  "tenant": "prairie",
+  "status": "failed",
+  "outputs": null,
+  "outcome": null,
+  "failure": {
+    "code": "RECOVERY_UNSAFE",
+    "message": "HOST_SYSTEM_ERROR after an irreversible step; restarting could repeat it",
+    "step_id": "s10_confirm_and_open",
+    "step_intent": "Confirm and open the sub-account",
+    "expected": "restartable state",
+    "observed": "TRANSACTION ABORTED (ABEND S0C7).",
+    "retryable": false,
+    "evidence": {
+      "screenshot": "screens/002-fail-s10_confirm_and_open.png",
+      "dom": "dom/fail-s10_confirm_and_open"
+    }
+  },
+  "escalations": [],
+  "recoveries": [
+    {
+      "condition": "transient_system_error",
+      "action": "restart",
+      "step_id": "s10_confirm_and_open",
+      "attempt": 1
+    }
+  ],
+  "warnings": [],
+  "steps_executed": 10,
+  "attempts": 1,
+  "duration_ms": 2043,
+  "evidence_dir": "runs/20260914T222157Z-replay-432f9d"
+}

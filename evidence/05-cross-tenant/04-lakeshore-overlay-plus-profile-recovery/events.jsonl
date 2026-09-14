@@ -1,0 +1,23 @@
+{"kind": "replay", "tenant": "lakeshore", "app": "keystone.coreserv", "app_version": "4.3.0", "base_url": "http://127.0.0.1:8602", "headed": false, "t": 0.232, "at": "2026-09-14T22:22:02+00:00", "event": "session.open"}
+{"capability": "keystone.coreserv.member_savings_balance@1.0.0", "tenant": "lakeshore", "app_version": "4.3.0", "overlays": ["lakeshore:keystone.coreserv.member_savings_balance (menu frame named 'menu'; field, button, product and column labels configured differently)"], "inputs": {"member_number": "[pii:5 chars]"}, "t": 0.232, "at": "2026-09-14T22:22:02+00:00", "event": "replay.start"}
+{"capability": "keystone.coreserv.signon@1.0.0", "t": 0.509, "at": "2026-09-14T22:22:02+00:00", "event": "auth.start"}
+{"step": "enter_user", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.819, "at": "2026-09-14T22:22:03+00:00", "event": "policy.decision"}
+{"step": "enter_user", "action": "fill", "intent": "Type operator user id", "strategy": "label", "risk": "reversible", "ms": 69, "t": 0.888, "at": "2026-09-14T22:22:03+00:00", "event": "step.done"}
+{"step": "enter_password", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.897, "at": "2026-09-14T22:22:03+00:00", "event": "policy.decision"}
+{"step": "enter_password", "action": "fill", "intent": "Type operator password", "strategy": "label", "risk": "reversible", "ms": 79, "t": 0.976, "at": "2026-09-14T22:22:03+00:00", "event": "step.done"}
+{"step": "submit", "allowed": true, "risk": "safe", "reason": "allowed", "t": 0.989, "at": "2026-09-14T22:22:03+00:00", "event": "policy.decision"}
+{"step": "submit", "action": "click", "intent": "Submit sign on", "strategy": "role", "risk": "safe", "ms": 91, "t": 1.08, "at": "2026-09-14T22:22:03+00:00", "event": "step.done"}
+{"t": 1.086, "at": "2026-09-14T22:22:03+00:00", "event": "auth.ok"}
+{"step": "s01_open_the_member_inquiry", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.407, "at": "2026-09-14T22:22:03+00:00", "event": "policy.decision"}
+{"step": "s01_open_the_member_inquiry", "action": "click", "intent": "Open the Member Inquiry function to look up a member", "strategy": "role", "risk": "safe", "ms": 83, "t": 1.49, "at": "2026-09-14T22:22:03+00:00", "event": "step.done"}
+{"step": "s02_enter_the_member_number", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.507, "at": "2026-09-14T22:22:03+00:00", "event": "policy.decision"}
+{"step": "s02_enter_the_member_number", "action": "fill", "intent": "Enter the member number to search", "strategy": "label", "risk": "reversible", "ms": 59, "t": 1.566, "at": "2026-09-14T22:22:03+00:00", "event": "step.done"}
+{"step": "s03_submit_the_member_search", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.574, "at": "2026-09-14T22:22:03+00:00", "event": "policy.decision"}
+{"step": "s03_submit_the_member_search", "action": "click", "intent": "Submit the member search", "strategy": "text", "risk": "safe", "ms": 69, "t": 1.643, "at": "2026-09-14T22:22:03+00:00", "event": "step.done"}
+{"condition": "member_alert", "klass": "recoverable", "code": "MEMBER_ALERT", "step": "s03_submit_the_member_search", "message": "Informational member alert interstitial; acknowledging it is read-only.", "t": 1.645, "at": "2026-09-14T22:22:03+00:00", "event": "condition.detected"}
+{"condition": "member_alert", "action": "dismiss", "screenshot": "screens/001-recover-member_alert.png", "t": 1.701, "at": "2026-09-14T22:22:03+00:00", "event": "recovery.apply"}
+{"step": "s04_read_the_current_balance", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.955, "at": "2026-09-14T22:22:04+00:00", "event": "policy.decision"}
+{"step": "s04_read_the_current_balance", "action": "extract", "intent": "Read the current balance of the REGULAR SHARES (savings) account", "strategy": "table_cell", "risk": "safe", "ms": 1, "t": 1.956, "at": "2026-09-14T22:22:04+00:00", "event": "step.done"}
+{"screen": "member_detail", "screenshot": "screens/002-success.png", "t": 2.008, "at": "2026-09-14T22:22:04+00:00", "event": "replay.checkpoint_verified"}
+{"status": "succeeded", "duration_ms": 1776, "steps": 4, "attempts": 1, "t": 2.008, "at": "2026-09-14T22:22:04+00:00", "event": "replay.end"}
+{"t": 2.008, "at": "2026-09-14T22:22:04+00:00", "event": "session.close"}

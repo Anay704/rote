@@ -1,0 +1,31 @@
+{"kind": "verify", "tenant": "prairie", "app": "keystone.coreserv", "app_version": "4.2.1", "base_url": "http://127.0.0.1:8601", "headed": false, "t": 0.253, "at": "2026-09-14T22:13:04+00:00", "event": "session.open"}
+{"capability": "keystone.coreserv.open_sub_account_review@1.0.0", "tenant": "prairie", "app_version": "4.2.1", "overlays": [], "inputs": {"member_number": "[pii:5 chars]", "product": "SHARE CERTIFICATE 12 MO", "nickname": "C**********D", "opening_deposit": "[financial]", "fund_from_suffix": "[financial]"}, "t": 0.253, "at": "2026-09-14T22:13:04+00:00", "event": "replay.start"}
+{"capability": "keystone.coreserv.signon@1.0.0", "t": 0.526, "at": "2026-09-14T22:13:04+00:00", "event": "auth.start"}
+{"step": "enter_user", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.819, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "enter_user", "action": "fill", "intent": "Type operator user id", "strategy": "label", "risk": "reversible", "ms": 68, "t": 0.887, "at": "2026-09-14T22:13:05+00:00", "event": "step.done"}
+{"step": "enter_password", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.896, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "enter_password", "action": "fill", "intent": "Type operator password", "strategy": "label", "risk": "reversible", "ms": 77, "t": 0.973, "at": "2026-09-14T22:13:05+00:00", "event": "step.done"}
+{"step": "submit", "allowed": true, "risk": "safe", "reason": "allowed", "t": 0.985, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "submit", "action": "click", "intent": "Submit sign on", "strategy": "role", "risk": "safe", "ms": 94, "t": 1.078, "at": "2026-09-14T22:13:05+00:00", "event": "step.done"}
+{"t": 1.084, "at": "2026-09-14T22:13:05+00:00", "event": "auth.ok"}
+{"step": "s01_open_member_inquiry_to", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.397, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "s01_open_member_inquiry_to", "action": "click", "intent": "Open Member Inquiry to look up the member", "strategy": "role", "risk": "safe", "ms": 74, "t": 1.471, "at": "2026-09-14T22:13:05+00:00", "event": "step.done"}
+{"step": "s02_enter_the_member_number", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.491, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "s02_enter_the_member_number", "action": "fill", "intent": "Enter the member number to search", "strategy": "label", "risk": "reversible", "ms": 59, "t": 1.55, "at": "2026-09-14T22:13:05+00:00", "event": "step.done"}
+{"step": "s03_search_for_the_member", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.559, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "s03_search_for_the_member", "action": "click", "intent": "Search for the member record", "strategy": "text", "risk": "safe", "ms": 65, "t": 1.625, "at": "2026-09-14T22:13:05+00:00", "event": "step.done"}
+{"step": "s04_begin_opening_a_new", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.648, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "s04_begin_opening_a_new", "action": "click", "intent": "Begin opening a new sub-account for the member", "strategy": "role", "risk": "safe", "ms": 76, "t": 1.725, "at": "2026-09-14T22:13:05+00:00", "event": "step.done"}
+{"step": "s05_select_the_product_for", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.741, "at": "2026-09-14T22:13:05+00:00", "event": "policy.decision"}
+{"step": "s05_select_the_product_for", "action": "select", "intent": "Select the product for the new sub-account", "strategy": "label", "risk": "reversible", "ms": 57, "t": 1.798, "at": "2026-09-14T22:13:06+00:00", "event": "step.done"}
+{"step": "s06_enter_the_nickname_for", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.809, "at": "2026-09-14T22:13:06+00:00", "event": "policy.decision"}
+{"step": "s06_enter_the_nickname_for", "action": "fill", "intent": "Enter the nickname for the new sub-account", "strategy": "label", "risk": "reversible", "ms": 53, "t": 1.862, "at": "2026-09-14T22:13:06+00:00", "event": "step.done"}
+{"step": "s07_enter_the_opening_deposit", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.872, "at": "2026-09-14T22:13:06+00:00", "event": "policy.decision"}
+{"step": "s07_enter_the_opening_deposit", "action": "fill", "intent": "Enter the opening deposit amount", "strategy": "label", "risk": "reversible", "ms": 53, "t": 1.926, "at": "2026-09-14T22:13:06+00:00", "event": "step.done"}
+{"step": "s08_select_the_funding_source", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.937, "at": "2026-09-14T22:13:06+00:00", "event": "policy.decision"}
+{"step": "s08_select_the_funding_source", "action": "select", "intent": "Select the funding source suffix", "strategy": "label", "risk": "reversible", "ms": 53, "t": 1.99, "at": "2026-09-14T22:13:06+00:00", "event": "step.done"}
+{"step": "s09_continue_to_the_review", "allowed": true, "risk": "safe", "reason": "allowed", "t": 2.005, "at": "2026-09-14T22:13:06+00:00", "event": "policy.decision"}
+{"step": "s09_continue_to_the_review", "action": "click", "intent": "Continue to the review screen without opening the account", "strategy": "role", "risk": "safe", "ms": 69, "t": 2.075, "at": "2026-09-14T22:13:06+00:00", "event": "step.done"}
+{"screen": "review_new_sub_account", "screenshot": "screens/001-success.png", "t": 2.122, "at": "2026-09-14T22:13:06+00:00", "event": "replay.checkpoint_verified"}
+{"status": "succeeded", "duration_ms": 1869, "steps": 9, "attempts": 1, "t": 2.122, "at": "2026-09-14T22:13:06+00:00", "event": "replay.end"}
+{"t": 2.123, "at": "2026-09-14T22:13:06+00:00", "event": "session.close"}

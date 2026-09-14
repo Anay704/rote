@@ -1,0 +1,108 @@
+[
+  {
+    "name": "keystone_coreserv_member_savings_balance",
+    "description": "Read a member's savings (REGULAR SHARES) balance. Opens Member Inquiry, searches by a given member number, and returns the current balance of that member's REGULAR SHARES savings account from the member detail account table. Input: member number. Output: savings balance (money). Read-only; performs no account maintenance actions. Returns: regular_shares_balance (money). Possible business outcomes (not errors): RECORD_NOT_FOUND, PERMISSION_DENIED, VALIDATION_REJECTED. Risk: safe. [keystone.coreserv.member_savings_balance@1.0.0, runs deterministically without a model]",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "member_number": {
+          "type": "string",
+          "description": "Credit union member number to look up",
+          "pattern": "^\\d{1,10}$"
+        }
+      },
+      "required": [
+        "member_number"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "keystone_coreserv_open_sub_account",
+    "description": "Open a member sub-account (commits). Runs the steps of keystone.coreserv.open_sub_account_review@1.0.0, then confirms the opening. The confirm step is irreversible and pauses for human approval on every execution. Returns the host confirmation message. Returns: confirmation (string). Possible business outcomes (not errors): RECORD_NOT_FOUND, PERMISSION_DENIED, VALIDATION_REJECTED, OPTION_UNAVAILABLE. Risk: irreversible - irreversible steps pause for human approval. [keystone.coreserv.open_sub_account@1.0.0, runs deterministically without a model]",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "member_number": {
+          "type": "string",
+          "description": "Credit union member number",
+          "pattern": "^\\d{1,10}$"
+        },
+        "product": {
+          "type": "string",
+          "description": "Sub-account product type to open",
+          "enum": [
+            "SHARE CERTIFICATE 12 MO",
+            "MONEY MARKET SHARES",
+            "HOLIDAY CLUB"
+          ]
+        },
+        "nickname": {
+          "type": "string",
+          "description": "Nickname for the new sub-account"
+        },
+        "opening_deposit": {
+          "type": "string",
+          "description": "Opening deposit amount for the new sub-account",
+          "pattern": "^\\d+(\\.\\d{1,2})?$"
+        },
+        "fund_from_suffix": {
+          "type": "string",
+          "description": "Suffix code of the member account funding the opening deposit"
+        }
+      },
+      "required": [
+        "member_number",
+        "product",
+        "nickname",
+        "opening_deposit",
+        "fund_from_suffix"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "keystone_coreserv_open_sub_account_review",
+    "description": "Prepare new member sub-account and stop at review screen. Given a member number, product type, nickname, opening deposit amount, and funding suffix code, this capability searches Member Inquiry for the member, opens the OPEN SUB-ACCOUNT form from the member detail screen, fills in the product, nickname, opening deposit and funding suffix, and submits CONTINUE to land on the REVIEW NEW SUB-ACCOUNT confirmation screen. It stops before the irreversible CONFIRM AND OPEN step, outputting the review screen for human verification. Returns: none. Possible business outcomes (not errors): RECORD_NOT_FOUND, PERMISSION_DENIED, VALIDATION_REJECTED, OPTION_UNAVAILABLE. Risk: safe. [keystone.coreserv.open_sub_account_review@1.0.0, runs deterministically without a model]",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "member_number": {
+          "type": "string",
+          "description": "Credit union member number",
+          "pattern": "^\\d{1,10}$"
+        },
+        "product": {
+          "type": "string",
+          "description": "Sub-account product type to open",
+          "enum": [
+            "SHARE CERTIFICATE 12 MO",
+            "MONEY MARKET SHARES",
+            "HOLIDAY CLUB"
+          ]
+        },
+        "nickname": {
+          "type": "string",
+          "description": "Nickname for the new sub-account"
+        },
+        "opening_deposit": {
+          "type": "string",
+          "description": "Opening deposit amount for the new sub-account",
+          "pattern": "^\\d+(\\.\\d{1,2})?$"
+        },
+        "fund_from_suffix": {
+          "type": "string",
+          "description": "Suffix code of the member account funding the opening deposit"
+        }
+      },
+      "required": [
+        "member_number",
+        "product",
+        "nickname",
+        "opening_deposit",
+        "fund_from_suffix"
+      ],
+      "additionalProperties": false
+    }
+  }
+]

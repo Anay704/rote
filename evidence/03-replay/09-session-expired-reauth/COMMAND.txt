@@ -1,0 +1,1 @@
+rote replay keystone.coreserv.member_savings_balance --inject '{"expire_session":true,"expire_path":"/mi/detail"}' --input member_number=12345

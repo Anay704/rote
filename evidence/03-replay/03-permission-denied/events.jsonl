@@ -1,0 +1,20 @@
+{"kind": "replay", "tenant": "prairie", "app": "keystone.coreserv", "app_version": "4.2.1", "base_url": "http://127.0.0.1:8601", "headed": false, "t": 0.224, "at": "2026-09-14T22:21:13+00:00", "event": "session.open"}
+{"capability": "keystone.coreserv.member_savings_balance@1.0.0", "tenant": "prairie", "app_version": "4.2.1", "overlays": [], "inputs": {"member_number": "[pii:5 chars]"}, "t": 0.224, "at": "2026-09-14T22:21:13+00:00", "event": "replay.start"}
+{"capability": "keystone.coreserv.signon@1.0.0", "t": 0.503, "at": "2026-09-14T22:21:13+00:00", "event": "auth.start"}
+{"step": "enter_user", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.812, "at": "2026-09-14T22:21:13+00:00", "event": "policy.decision"}
+{"step": "enter_user", "action": "fill", "intent": "Type operator user id", "strategy": "label", "risk": "reversible", "ms": 69, "t": 0.882, "at": "2026-09-14T22:21:13+00:00", "event": "step.done"}
+{"step": "enter_password", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.891, "at": "2026-09-14T22:21:13+00:00", "event": "policy.decision"}
+{"step": "enter_password", "action": "fill", "intent": "Type operator password", "strategy": "label", "risk": "reversible", "ms": 75, "t": 0.966, "at": "2026-09-14T22:21:13+00:00", "event": "step.done"}
+{"step": "submit", "allowed": true, "risk": "safe", "reason": "allowed", "t": 0.979, "at": "2026-09-14T22:21:13+00:00", "event": "policy.decision"}
+{"step": "submit", "action": "click", "intent": "Submit sign on", "strategy": "role", "risk": "safe", "ms": 80, "t": 1.059, "at": "2026-09-14T22:21:13+00:00", "event": "step.done"}
+{"t": 1.064, "at": "2026-09-14T22:21:13+00:00", "event": "auth.ok"}
+{"step": "s01_open_the_member_inquiry", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.383, "at": "2026-09-14T22:21:14+00:00", "event": "policy.decision"}
+{"step": "s01_open_the_member_inquiry", "action": "click", "intent": "Open the Member Inquiry function to look up a member", "strategy": "role", "risk": "safe", "ms": 70, "t": 1.453, "at": "2026-09-14T22:21:14+00:00", "event": "step.done"}
+{"step": "s02_enter_the_member_number", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.472, "at": "2026-09-14T22:21:14+00:00", "event": "policy.decision"}
+{"step": "s02_enter_the_member_number", "action": "fill", "intent": "Enter the member number to search", "strategy": "label", "risk": "reversible", "ms": 59, "t": 1.531, "at": "2026-09-14T22:21:14+00:00", "event": "step.done"}
+{"step": "s03_submit_the_member_search", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.54, "at": "2026-09-14T22:21:14+00:00", "event": "policy.decision"}
+{"step": "s03_submit_the_member_search", "action": "click", "intent": "Submit the member search", "strategy": "text", "risk": "safe", "ms": 65, "t": 1.606, "at": "2026-09-14T22:21:14+00:00", "event": "step.done"}
+{"condition": "access_denied", "klass": "business_outcome", "code": "PERMISSION_DENIED", "step": "s03_submit_the_member_search", "message": "SEC-403 ACCESS DENIED - RESTRICTED ACCOUNT", "t": 1.607, "at": "2026-09-14T22:21:14+00:00", "event": "condition.detected"}
+{"code": "PERMISSION_DENIED", "step": "s03_submit_the_member_search", "screenshot": "screens/001-outcome-PERMISSION_DENIED.png", "t": 1.662, "at": "2026-09-14T22:21:14+00:00", "event": "replay.business_outcome"}
+{"status": "business_outcome", "duration_ms": 1438, "steps": 3, "attempts": 1, "t": 1.662, "at": "2026-09-14T22:21:14+00:00", "event": "replay.end"}
+{"t": 1.662, "at": "2026-09-14T22:21:14+00:00", "event": "session.close"}

@@ -1,0 +1,1 @@
+rote replay keystone.coreserv.open_sub_account_review --reset --input member_number=48213 --input 'product=SHARE CERTIFICATE 12 MO' --input 'nickname=COLLEGE FUND' --input opening_deposit=99999.00 --input fund_from_suffix=0000

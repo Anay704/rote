@@ -1,0 +1,63 @@
+{
+  "run_id": "20260914T222140Z-replay-0bd342",
+  "capability": "keystone.coreserv.member_savings_balance@1.0.0",
+  "tenant": "prairie",
+  "status": "needs_human",
+  "outputs": null,
+  "outcome": null,
+  "failure": {
+    "code": "UNEXPECTED_STATE",
+    "message": "expected screen 'member_detail' (post) did not appear and no known condition matched",
+    "step_id": "s03_submit_the_member_search",
+    "step_intent": "Submit the member search",
+    "expected": "member_detail",
+    "observed": {
+      "paths": {
+        "page": "/main",
+        "frame \"banner\"": "/banner",
+        "frame \"nav\"": "/nav",
+        "frame \"content\"": "/mi/detail"
+      },
+      "text_excerpt": "PRAIRIE FEDERAL CREDIT UNION\tCORESERV 4.2.1 \u00a0 OPERATOR: teller01\nFUNCTIONS\n\u25b8 MEMBER INQUIRY\n\u25b8 TELLER HOME\n\u25b8 GENERAL LEDGER\n\nSIGN OFF\nPRINT SERVICES\n\nNO DEFAULT PRINTER CONFIGURED FOR WORKSTATION WS-0417.\n",
+      "screen_rules": [
+        {
+          "rule": "url_path /mi/detail in frame:content:None",
+          "ok": true,
+          "actual": "/mi/detail",
+          "scope_missing": false
+        },
+        {
+          "rule": "text 'MEMBER DETAIL' in frame:content:None",
+          "ok": false,
+          "scope_missing": false
+        }
+      ]
+    },
+    "retryable": false,
+    "evidence": {
+      "screenshot": "screens/001-fail-s03_submit_the_member_search.png",
+      "dom": "dom/fail-s03_submit_the_member_search"
+    }
+  },
+  "escalations": [
+    {
+      "intervention_id": "iv-1789424512",
+      "kind": "unknown_state",
+      "reason": "expected screen 'member_detail' (post) did not appear and no known condition matched",
+      "step_id": "s03_submit_the_member_search",
+      "resolution": {
+        "status": "open",
+        "decision": null,
+        "operator": null,
+        "note": null,
+        "human_actions": []
+      }
+    }
+  ],
+  "recoveries": [],
+  "warnings": [],
+  "steps_executed": 3,
+  "attempts": 1,
+  "duration_ms": 11542,
+  "evidence_dir": "runs/20260914T222140Z-replay-0bd342"
+}

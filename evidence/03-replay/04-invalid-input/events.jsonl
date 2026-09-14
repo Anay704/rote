@@ -1,0 +1,5 @@
+{"kind": "replay", "tenant": "prairie", "app": "keystone.coreserv", "app_version": "4.2.1", "base_url": "http://127.0.0.1:8601", "headed": false, "t": 0.229, "at": "2026-09-14T22:21:15+00:00", "event": "session.open"}
+{"capability": "keystone.coreserv.member_savings_balance@1.0.0", "tenant": "prairie", "app_version": "4.2.1", "overlays": [], "inputs": {"member_number": "[pii:5 chars]"}, "t": 0.23, "at": "2026-09-14T22:21:15+00:00", "event": "replay.start"}
+{"problems": [{"input": "member_number", "problem": "does not match pattern ^\\d{1,10}$"}], "t": 0.23, "at": "2026-09-14T22:21:15+00:00", "event": "replay.invalid_request"}
+{"status": "invalid_request", "duration_ms": 0, "steps": 0, "attempts": 1, "t": 0.23, "at": "2026-09-14T22:21:15+00:00", "event": "replay.end"}
+{"t": 0.23, "at": "2026-09-14T22:21:15+00:00", "event": "session.close"}

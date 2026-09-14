@@ -1,0 +1,2 @@
+rote replay keystone.coreserv.member_savings_balance --console --input member_number=12345 --inject '{"unknown_modal_next":1,"unknown_modal_path":"/mi/detail"}'
+# operator, in the console: Take control -> click DISMISS on the live view -> write a note -> resume

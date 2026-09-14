@@ -1,0 +1,123 @@
+{
+  "run_id": "20260914T222107Z-replay-58d29c",
+  "capability": "keystone.coreserv.member_savings_balance@1.0.0",
+  "tenant": "lakeshore_frame_only",
+  "status": "failed",
+  "outputs": null,
+  "outcome": null,
+  "failure": {
+    "code": "LOCATOR_NOT_FOUND",
+    "message": "semantic locators failed for current_balance_value; refusing structural fallback for a data read",
+    "step_id": "s04_read_the_current_balance",
+    "step_intent": "Read the current balance of the REGULAR SHARES (savings) account",
+    "expected": {
+      "target": "current_balance_value",
+      "locators": [
+        {
+          "strategy": "table_cell",
+          "row_key": "REGULAR SHARES",
+          "column": "Current Balance"
+        },
+        {
+          "strategy": "css",
+          "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1) > table:nth-of-type(2) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(3)"
+        }
+      ]
+    },
+    "observed": {
+      "used": "css",
+      "notes": [
+        "table_cell matched 0"
+      ],
+      "candidates": [
+        {
+          "row": [
+            "MEMBER",
+            "12345",
+            "",
+            "SSN",
+            "\u2039redacted\u203a"
+          ]
+        },
+        {
+          "row": [
+            "NAME",
+            "\u2039redacted\u203a",
+            "",
+            "DOB",
+            "\u2039redacted\u203a"
+          ]
+        },
+        {
+          "row": [
+            "ADDRESS",
+            "\u2039redacted\u203a",
+            "",
+            "PHONE",
+            "\u2039redacted\u203a"
+          ]
+        },
+        {
+          "row": [
+            "SFX",
+            "DESCRIPTION",
+            "Avail. Balance"
+          ]
+        },
+        {
+          "row": [
+            "0000",
+            "SHARE SAVINGS",
+            "$*.**"
+          ]
+        },
+        {
+          "row": [
+            "0010",
+            "CHECKING",
+            "$*.**"
+          ]
+        },
+        {
+          "row": [
+            "0050",
+            "CHRISTMAS CLUB",
+            "$*.**"
+          ]
+        },
+        {
+          "row": [
+            "OPEN SUB-ACCOUNT",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    "retryable": false,
+    "evidence": {
+      "screenshot": "screens/001-fail-s04_read_the_current_balance.png",
+      "dom": "dom/fail-s04_read_the_current_balance"
+    }
+  },
+  "escalations": [],
+  "recoveries": [],
+  "warnings": [
+    {
+      "code": "LOCATOR_DEGRADED",
+      "step_id": "s02_enter_the_member_number",
+      "target": "member_number_input",
+      "detail": "used fallback #1 (css); label matched 0"
+    },
+    {
+      "code": "LOCATOR_DEGRADED",
+      "step_id": "s03_submit_the_member_search",
+      "target": "search_clickable",
+      "detail": "used fallback #1 (css); text matched 0"
+    }
+  ],
+  "steps_executed": 3,
+  "attempts": 1,
+  "duration_ms": 1490,
+  "evidence_dir": "runs/20260914T222107Z-replay-58d29c"
+}

@@ -1,0 +1,39 @@
+{"kind": "replay", "tenant": "prairie", "app": "keystone.coreserv", "app_version": "4.2.1", "base_url": "http://127.0.0.1:8601", "headed": false, "t": 0.228, "at": "2026-09-14T22:21:27+00:00", "event": "session.open"}
+{"faults": {"expire_session": true, "expire_path": "/mi/detail"}, "t": 0.228, "at": "2026-09-14T22:21:27+00:00", "event": "test.fault_injected"}
+{"capability": "keystone.coreserv.member_savings_balance@1.0.0", "tenant": "prairie", "app_version": "4.2.1", "overlays": [], "inputs": {"member_number": "[pii:5 chars]"}, "t": 0.228, "at": "2026-09-14T22:21:27+00:00", "event": "replay.start"}
+{"capability": "keystone.coreserv.signon@1.0.0", "t": 0.502, "at": "2026-09-14T22:21:28+00:00", "event": "auth.start"}
+{"step": "enter_user", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.811, "at": "2026-09-14T22:21:28+00:00", "event": "policy.decision"}
+{"step": "enter_user", "action": "fill", "intent": "Type operator user id", "strategy": "label", "risk": "reversible", "ms": 72, "t": 0.883, "at": "2026-09-14T22:21:28+00:00", "event": "step.done"}
+{"step": "enter_password", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 0.894, "at": "2026-09-14T22:21:28+00:00", "event": "policy.decision"}
+{"step": "enter_password", "action": "fill", "intent": "Type operator password", "strategy": "label", "risk": "reversible", "ms": 78, "t": 0.972, "at": "2026-09-14T22:21:28+00:00", "event": "step.done"}
+{"step": "submit", "allowed": true, "risk": "safe", "reason": "allowed", "t": 0.987, "at": "2026-09-14T22:21:28+00:00", "event": "policy.decision"}
+{"step": "submit", "action": "click", "intent": "Submit sign on", "strategy": "role", "risk": "safe", "ms": 82, "t": 1.069, "at": "2026-09-14T22:21:28+00:00", "event": "step.done"}
+{"t": 1.075, "at": "2026-09-14T22:21:28+00:00", "event": "auth.ok"}
+{"step": "s01_open_the_member_inquiry", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.407, "at": "2026-09-14T22:21:29+00:00", "event": "policy.decision"}
+{"step": "s01_open_the_member_inquiry", "action": "click", "intent": "Open the Member Inquiry function to look up a member", "strategy": "role", "risk": "safe", "ms": 71, "t": 1.478, "at": "2026-09-14T22:21:29+00:00", "event": "step.done"}
+{"step": "s02_enter_the_member_number", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 1.494, "at": "2026-09-14T22:21:29+00:00", "event": "policy.decision"}
+{"step": "s02_enter_the_member_number", "action": "fill", "intent": "Enter the member number to search", "strategy": "label", "risk": "reversible", "ms": 59, "t": 1.552, "at": "2026-09-14T22:21:29+00:00", "event": "step.done"}
+{"step": "s03_submit_the_member_search", "allowed": true, "risk": "safe", "reason": "allowed", "t": 1.561, "at": "2026-09-14T22:21:29+00:00", "event": "policy.decision"}
+{"step": "s03_submit_the_member_search", "action": "click", "intent": "Submit the member search", "strategy": "text", "risk": "safe", "ms": 70, "t": 1.63, "at": "2026-09-14T22:21:29+00:00", "event": "step.done"}
+{"condition": "session_expired", "klass": "recoverable", "code": "SESSION_EXPIRED", "step": "s03_submit_the_member_search", "message": "SESSION EXPIRED - PLEASE SIGN ON AGAIN", "t": 1.635, "at": "2026-09-14T22:21:29+00:00", "event": "condition.detected"}
+{"condition": "session_expired", "action": "restart", "screenshot": "screens/001-recover-session_expired.png", "t": 1.686, "at": "2026-09-14T22:21:29+00:00", "event": "recovery.apply"}
+{"condition": "session_expired", "reauthenticate": true, "next_attempt": 2, "backoff_ms": 0, "t": 1.686, "at": "2026-09-14T22:21:29+00:00", "event": "replay.restart"}
+{"capability": "keystone.coreserv.signon@1.0.0", "t": 1.96, "at": "2026-09-14T22:21:29+00:00", "event": "auth.start"}
+{"step": "enter_user", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 2.277, "at": "2026-09-14T22:21:29+00:00", "event": "policy.decision"}
+{"step": "enter_user", "action": "fill", "intent": "Type operator user id", "strategy": "label", "risk": "reversible", "ms": 66, "t": 2.343, "at": "2026-09-14T22:21:30+00:00", "event": "step.done"}
+{"step": "enter_password", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 2.354, "at": "2026-09-14T22:21:30+00:00", "event": "policy.decision"}
+{"step": "enter_password", "action": "fill", "intent": "Type operator password", "strategy": "label", "risk": "reversible", "ms": 55, "t": 2.409, "at": "2026-09-14T22:21:30+00:00", "event": "step.done"}
+{"step": "submit", "allowed": true, "risk": "safe", "reason": "allowed", "t": 2.419, "at": "2026-09-14T22:21:30+00:00", "event": "policy.decision"}
+{"step": "submit", "action": "click", "intent": "Submit sign on", "strategy": "role", "risk": "safe", "ms": 89, "t": 2.508, "at": "2026-09-14T22:21:30+00:00", "event": "step.done"}
+{"t": 2.514, "at": "2026-09-14T22:21:30+00:00", "event": "auth.ok"}
+{"step": "s01_open_the_member_inquiry", "allowed": true, "risk": "safe", "reason": "allowed", "t": 2.835, "at": "2026-09-14T22:21:30+00:00", "event": "policy.decision"}
+{"step": "s01_open_the_member_inquiry", "action": "click", "intent": "Open the Member Inquiry function to look up a member", "strategy": "role", "risk": "safe", "ms": 75, "t": 2.91, "at": "2026-09-14T22:21:30+00:00", "event": "step.done"}
+{"step": "s02_enter_the_member_number", "allowed": true, "risk": "reversible", "reason": "allowed", "t": 2.928, "at": "2026-09-14T22:21:30+00:00", "event": "policy.decision"}
+{"step": "s02_enter_the_member_number", "action": "fill", "intent": "Enter the member number to search", "strategy": "label", "risk": "reversible", "ms": 60, "t": 2.987, "at": "2026-09-14T22:21:30+00:00", "event": "step.done"}
+{"step": "s03_submit_the_member_search", "allowed": true, "risk": "safe", "reason": "allowed", "t": 2.997, "at": "2026-09-14T22:21:30+00:00", "event": "policy.decision"}
+{"step": "s03_submit_the_member_search", "action": "click", "intent": "Submit the member search", "strategy": "text", "risk": "safe", "ms": 67, "t": 3.064, "at": "2026-09-14T22:21:30+00:00", "event": "step.done"}
+{"step": "s04_read_the_current_balance", "allowed": true, "risk": "safe", "reason": "allowed", "t": 3.08, "at": "2026-09-14T22:21:30+00:00", "event": "policy.decision"}
+{"step": "s04_read_the_current_balance", "action": "extract", "intent": "Read the current balance of the REGULAR SHARES (savings) account", "strategy": "table_cell", "risk": "safe", "ms": 0, "t": 3.081, "at": "2026-09-14T22:21:30+00:00", "event": "step.done"}
+{"screen": "member_detail", "screenshot": "screens/002-success.png", "t": 3.109, "at": "2026-09-14T22:21:30+00:00", "event": "replay.checkpoint_verified"}
+{"status": "succeeded", "duration_ms": 2881, "steps": 7, "attempts": 2, "t": 3.109, "at": "2026-09-14T22:21:30+00:00", "event": "replay.end"}
+{"t": 3.109, "at": "2026-09-14T22:21:30+00:00", "event": "session.close"}

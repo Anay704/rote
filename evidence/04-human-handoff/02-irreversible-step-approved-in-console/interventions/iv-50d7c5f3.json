@@ -1,0 +1,24 @@
+{
+  "id": "iv-50d7c5f3",
+  "session_id": "20260914T221704Z-replay-31d7ab",
+  "kind": "approval",
+  "reason": "step 'Confirm and open the sub-account' is irreversible and needs human approval",
+  "context": {
+    "capability": "keystone.coreserv.open_sub_account@1.0.0",
+    "tenant": "prairie",
+    "step": "s10_confirm_and_open",
+    "dom": "dom/escalate-approval",
+    "intent": "Confirm and open the sub-account"
+  },
+  "screenshot": "screens/001-escalate-approval.png",
+  "created_at": "2026-09-14T22:17:06+00:00",
+  "status": "resolved",
+  "operator": "operator.demo",
+  "decision": "approve",
+  "note": "Checked the review screen against the member's request (12-month certificate, 500.00 from suffix 0000). Approved.",
+  "human_actions": [],
+  "allowed_decisions": [
+    "approve",
+    "reject"
+  ]
+}

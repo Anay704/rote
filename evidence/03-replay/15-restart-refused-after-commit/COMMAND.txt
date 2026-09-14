@@ -1,0 +1,1 @@
+rote replay keystone.coreserv.open_sub_account --inject '{"error_next":1,"error_path":"/sa/commit"}' --approve s10_confirm_and_open --input member_number=48213 --input 'product=SHARE CERTIFICATE 12 MO' --input 'nickname=COLLEGE FUND' --input opening_deposit=500.00 --input fund_from_suffix=0000
