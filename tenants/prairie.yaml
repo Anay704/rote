@@ -1,0 +1,7 @@
+# Tenant A: the institution discovery ran against. No overlays: it *is* the base.
+id: prairie
+display_name: Prairie Federal Credit Union
+app: keystone.coreserv
+app_version: 4.2.1
+base_url: http://127.0.0.1:8601
+overlays: []

@@ -1,0 +1,50 @@
+# Sign on to CoreServ. AUTHORED, not discovered: credentials must never pass through a model, so
+# the one flow that handles them is written and reviewed by hand. Secrets are resolved by the
+# replay engine from a secret provider; they are not capability arguments.
+schema_version: rote.capability/v1
+id: keystone.coreserv.signon
+version: 1.0.0
+title: Sign on to CoreServ
+description: Establish an authenticated operator session and land on the main frameset.
+app: {product: keystone.coreserv, compatible_versions: '>=4.0,<5', surface: web}
+risk: safe
+inputs:
+  user_id: {type: string, description: Operator user id, classification: secret, source: secret}
+  password: {type: string, description: Operator password, classification: secret, source: secret}
+outcomes:
+  - {code: VALIDATION_REJECTED, description: Credentials rejected}
+entry_screen: signon
+screens:
+  signon:
+    description: Sign-on form
+    identify:
+      - {kind: url_path, path: /signon}
+  main:
+    description: Main frameset with the function menu
+    identify:
+      - {kind: url_path, path: /main}
+targets:
+  user_id_input:
+    description: USER ID field
+    locators:
+      - {strategy: label, role: textbox, label: USER ID}
+      - {strategy: css, selector: 'input[name=U01]'}
+  password_input:
+    description: PASSWORD field
+    locators:
+      - {strategy: label, role: textbox, label: PASSWORD}
+      - {strategy: css, selector: 'input[name=P01]'}
+  sign_on_button:
+    description: SIGN ON button
+    locators:
+      - {strategy: role, role: button, name: SIGN ON}
+steps:
+  - {id: enter_user, intent: Type operator user id, screen: signon, action: fill, target: user_id_input,
+     value: {secret: user_id}, origin: author}
+  - {id: enter_password, intent: Type operator password, screen: signon, action: fill, target: password_input,
+     value: {secret: password}, origin: author}
+  - {id: submit, intent: Submit sign on, screen: signon, action: click, target: sign_on_button, risk: safe,
+     expect: {screen: main, timeout_ms: 10000}, origin: author}
+success: {screen: main}
+review: {status: approved, approved_by: security-review, approved_at: '2026-09-14', notes: Authored flow}
+provenance: {method: authored, recorded_at: '2026-09-14T00:00:00+00:00'}

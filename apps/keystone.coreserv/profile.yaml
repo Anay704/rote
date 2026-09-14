@@ -1,0 +1,121 @@
+# App profile for the vendor product "Keystone CoreServ" (the stand-in legacy core).
+# Shared by every capability and every tenant running this product. Reviewed by a human; discovery
+# never edits it. Condition order matters: the first matching condition wins, so put specific
+# before generic.
+id: keystone.coreserv
+vendor: Keystone Data Systems (fictional)
+surface: web
+entry_path: /main
+
+auth:
+  capability: keystone.coreserv.signon
+  secrets:
+    user_id: CORESERV_USER
+    password: CORESERV_PASSWORD
+  signed_out_screen:
+    - kind: url_path
+      path: /signon
+
+conditions:
+  # ---------------------------------------------------------------- business outcomes
+  - id: record_not_found
+    description: The member number was valid but no member exists.
+    class: business_outcome
+    code: RECORD_NOT_FOUND
+    detect:
+      - kind: text_matches
+        scope: {kind: frame, name: content}
+        pattern: '\*\*\* (NO RECORD FOUND[^*]*?) \*\*\*'
+    message_group: 1
+
+  - id: access_denied
+    description: Operator lacks permission for this record (e.g. employee accounts).
+    class: business_outcome
+    code: PERMISSION_DENIED
+    detect:
+      - kind: text_matches
+        scope: {kind: frame, name: content}
+        pattern: '\*\*\* (SEC-\d+ ACCESS DENIED[^*]*?) \*\*\*'
+    message_group: 1
+
+  - id: field_validation
+    description: The application rejected a field value (format, minimums, insufficient funds).
+    class: business_outcome
+    code: VALIDATION_REJECTED
+    detect:
+      - kind: text_matches
+        scope: {kind: frame, name: content}
+        pattern: '\*\*\* ((?:INVALID|MINIMUM|OPENING DEPOSIT EXCEEDS|[A-Z0-9 ]+ REQUIRED FIELD)[^*]*?) \*\*\*'
+    message_group: 1
+
+  # ---------------------------------------------------------------- recoverable
+  - id: member_alert
+    description: Informational member alert interstitial; acknowledging it is read-only.
+    class: recoverable
+    code: MEMBER_ALERT
+    detect:
+      - kind: url_path
+        scope: {kind: frame, name: content}
+        path: /mi/alert
+    recovery:
+      kind: dismiss
+      scope: {kind: frame, name: content}
+      locators:
+        - {strategy: role, role: button, name: ACKNOWLEDGE}
+    max_recoveries: 2
+
+  - id: system_notice
+    description: Broadcast system notice page with an OK button.
+    class: recoverable
+    code: SYSTEM_NOTICE
+    detect:
+      - kind: text_matches
+        scope: {kind: frame, name: content}
+        pattern: 'SYSTEM NOTICE'
+    recovery:
+      kind: dismiss
+      scope: {kind: frame, name: content}
+      locators:
+        - {strategy: role, role: button, name: OK}
+    max_recoveries: 3
+
+  - id: session_expired
+    description: Idle timeout or server-side session loss.
+    class: recoverable
+    code: SESSION_EXPIRED
+    detect:
+      - kind: text_matches
+        pattern: 'SESSION EXPIRED - PLEASE SIGN ON AGAIN'
+    recovery: {kind: restart, reauthenticate: true, backoff_ms: 0}
+    max_recoveries: 1
+
+  - id: transient_system_error
+    description: Host abend page; usually transient under load.
+    class: recoverable
+    code: HOST_SYSTEM_ERROR
+    detect:
+      - kind: text_matches
+        pattern: 'CORESERV SYSTEM ERROR - ([^\n]+)'
+    message_group: 1
+    recovery: {kind: restart, reauthenticate: false, backoff_ms: 750}
+    max_recoveries: 2
+
+# Vendor-level hints for the risk classifier (policy patterns apply on top).
+risk:
+  safe_controls:
+    - SEARCH
+    - INQUIRE
+    - CONTINUE
+    - EDIT
+    - CANCEL
+    - ACKNOWLEDGE
+    - OK
+    - DISMISS
+    - SIGN ON
+  irreversible_controls:
+    - CONFIRM AND OPEN
+    - CLOSE MEMBERSHIP
+
+# Labels whose adjacent values are identity data, masked before the model/logs/screenshots see them.
+sensitive_labels: [NAME, SSN, DOB, ADDRESS, PHONE]
+max_attempts: 3

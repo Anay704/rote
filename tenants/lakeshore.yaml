@@ -1,0 +1,36 @@
+# Tenant B: same vendor product (Keystone CoreServ), different configuration, newer minor version.
+#
+# The base capability was recorded on prairie. Rather than re-recording it here, this overlay patches
+# only what the tenant's configuration changes. Each entry was written from a replay drift report
+# (evidence/05-cross-tenant): SCREEN_MISMATCH for the menu frame, then LOCATOR_DEGRADED warnings and a
+# refused structural read for the relabelled field, button and balance column.
+id: lakeshore
+display_name: Lakeshore Community Credit Union
+app: keystone.coreserv
+app_version: 4.3.0
+base_url: http://127.0.0.1:8602
+overlays:
+  - base: keystone.coreserv.member_savings_balance
+    base_versions: '>=1.0.0,<2.0.0'
+    reason: menu frame named 'menu'; field, button, product and column labels configured differently
+    patch:
+      screens:
+        functions:
+          identify:
+            - {kind: url_path, scope: {kind: frame, name: menu}, path: /menu}
+            - {kind: text_present, scope: {kind: frame, name: menu}, text: FUNCTIONS}
+      targets:
+        member_inquiry_link:
+          scope: {kind: frame, name: menu, url_path: /menu}
+        member_number_input:
+          description: textbox 'Member #:'
+          locators:
+            - {strategy: label, role: textbox, label: 'Member #:'}
+        search_clickable:
+          description: clickable 'INQUIRE'
+          locators:
+            - {strategy: text, text: INQUIRE, role: clickable}
+        current_balance_value:
+          description: column 'Avail. Balance' of the row keyed 'SHARE SAVINGS'
+          locators:
+            - {strategy: table_cell, row_key: SHARE SAVINGS, column: Avail. Balance}
