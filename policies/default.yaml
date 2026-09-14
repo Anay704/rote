@@ -1,0 +1,25 @@
+# Guardrail policy. Origins are extended per tenant at load time (tenant base_url).
+allowed_origins: []
+allowed_paths:
+  - /signon
+  - /main
+  - /banner
+  - /nav
+  - /menu
+  - /welcome
+  - /signoff
+  - /mi/*
+  - /sa/*
+  - /favicon.ico
+denied_paths:
+  - /admin/*
+  - /__*
+allowed_actions:
+  discovery: [click, fill, select, press, extract]
+  replay: [click, fill, select, press, extract, navigate, dismiss]
+irreversible_patterns:
+  - '\b(confirm|delete|remove|close|post|transfer|approve|wire|withdraw|disburse|void|reverse)\b'
+on_irreversible:
+  discovery: block
+  replay: require_approval
+treat_unclassified_submit_as: irreversible
