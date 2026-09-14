@@ -1,0 +1,542 @@
+# Open a member sub-account (commits)
+# keystone.coreserv.open_sub_account@1.0.0 - generated artifact; review before approving.
+# Schema: rote.capability/v1 (see schema/capability.schema.json)
+schema_version: rote.capability/v1
+id: keystone.coreserv.open_sub_account
+version: 1.0.0
+title: Open a member sub-account (commits)
+description: Runs the steps of keystone.coreserv.open_sub_account_review@1.0.0, then confirms the opening. The confirm
+  step is irreversible and pauses for human approval on every execution. Returns the host confirmation message.
+app:
+  product: keystone.coreserv
+  compatible_versions: '>=4.2,<5'
+  surface: web
+risk: irreversible
+inputs:
+  member_number:
+    type: string
+    description: Credit union member number
+    classification: pii
+    required: true
+    pattern: ^\d{1,10}$
+    source: caller
+  product:
+    type: enum
+    description: Sub-account product type to open
+    classification: public
+    required: true
+    values:
+    - SHARE CERTIFICATE 12 MO
+    - MONEY MARKET SHARES
+    - HOLIDAY CLUB
+    source: caller
+  nickname:
+    type: string
+    description: Nickname for the new sub-account
+    classification: internal
+    required: true
+    source: caller
+  opening_deposit:
+    type: money
+    description: Opening deposit amount for the new sub-account
+    classification: financial
+    required: true
+    source: caller
+  fund_from_suffix:
+    type: string
+    description: Suffix code of the member account funding the opening deposit
+    classification: financial
+    required: true
+    source: caller
+outputs:
+  confirmation:
+    type: string
+    description: 'Host confirmation message incl. new suffix and confirmation #'
+    classification: internal
+outcomes:
+- code: RECORD_NOT_FOUND
+  description: The member number was valid but no member exists.
+  steps: []
+- code: PERMISSION_DENIED
+  description: Operator lacks permission for this record (e.g. employee accounts).
+  steps: []
+- code: VALIDATION_REJECTED
+  description: The application rejected a field value (format, minimums, insufficient funds).
+  steps: []
+- code: OPTION_UNAVAILABLE
+  description: The screen does not offer the requested option for this record.
+  steps:
+  - s05_select_the_product_for
+  - s08_select_the_funding_source
+entry_screen: functions
+screens:
+  functions:
+    description: FUNCTIONS (frame 'nav', /nav)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: nav
+      path: /nav
+    - kind: text_present
+      scope:
+        kind: frame
+        name: nav
+      text: FUNCTIONS
+  member_inquiry:
+    description: MEMBER INQUIRY (frame 'content', /mi/search)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: content
+      path: /mi/search
+    - kind: text_present
+      scope:
+        kind: frame
+        name: content
+      text: MEMBER INQUIRY
+  member_detail:
+    description: MEMBER DETAIL (frame 'content', /mi/detail)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: content
+      path: /mi/detail
+    - kind: text_present
+      scope:
+        kind: frame
+        name: content
+      text: MEMBER DETAIL
+  open_sub_account:
+    description: OPEN SUB-ACCOUNT (frame 'content', /sa/new)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: content
+      path: /sa/new
+    - kind: text_present
+      scope:
+        kind: frame
+        name: content
+      text: OPEN SUB-ACCOUNT
+  review_new_sub_account:
+    description: REVIEW NEW SUB-ACCOUNT (frame 'content', /sa/review)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: content
+      path: /sa/review
+    - kind: text_present
+      scope:
+        kind: frame
+        name: content
+      text: REVIEW NEW SUB-ACCOUNT
+  sub_account_opened:
+    description: SUB-ACCOUNT OPENED (frame 'content', /sa/commit)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: content
+      path: /sa/commit
+    - kind: text_present
+      scope:
+        kind: frame
+        name: content
+      text: SUB-ACCOUNT OPENED
+targets:
+  member_inquiry_link:
+    description: link 'MEMBER INQUIRY'
+    scope:
+      kind: frame
+      name: nav
+      url_path: /nav
+    locators:
+    - strategy: role
+      role: link
+      name: MEMBER INQUIRY
+    - strategy: text
+      text: MEMBER INQUIRY
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > a:nth-of-type(1)
+    fingerprint:
+      role: link
+      name: MEMBER INQUIRY
+      label: ''
+      text: MEMBER INQUIRY
+      bbox:
+      - 27.0
+      - 36.0
+      - 141.0
+      - 17.0
+    rationale: 'Unique accessible role+name (link ''MEMBER INQUIRY''): survives markup and layout changes and maps
+      to desktop accessibility APIs. Fallbacks, each verified unique at record time: text, css; replay flags any
+      use of a fallback as degradation.'
+  member_number_input:
+    description: textbox 'Member Number:'
+    scope:
+      kind: frame
+      name: content
+      url_path: /mi/search
+    locators:
+    - strategy: label
+      role: textbox
+      label: 'Member Number:'
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2)
+        > input:nth-of-type(1)
+    fingerprint:
+      role: textbox
+      name: ''
+      label: 'Member Number:'
+      text: ''
+      bbox:
+      - 128.0
+      - 47.0
+      - 83.0
+      - 21.0
+    rationale: 'No accessible name (table layout, no <label>/aria); identified the way an operator does, by the
+      visible label ''Member Number:'' beside it. Fallbacks, each verified unique at record time: css; replay flags
+      any use of a fallback as degradation.'
+  search_clickable:
+    description: clickable 'SEARCH'
+    scope:
+      kind: frame
+      name: content
+      url_path: /mi/search
+    locators:
+    - strategy: text
+      text: SEARCH
+      role: clickable
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(3)
+    fingerprint:
+      role: clickable
+      name: SEARCH
+      label: ''
+      text: SEARCH
+      bbox:
+      - 216.0
+      - 44.0
+      - 71.0
+      - 27.0
+    rationale: 'Non-semantic clickable with no ARIA role; matched by its visible text ''SEARCH''. Fallbacks, each
+      verified unique at record time: css; replay flags any use of a fallback as degradation.'
+  open_sub_account_link:
+    description: link 'OPEN SUB-ACCOUNT'
+    scope:
+      kind: frame
+      name: content
+      url_path: /mi/detail
+    locators:
+    - strategy: role
+      role: link
+      name: OPEN SUB-ACCOUNT
+    - strategy: text
+      text: OPEN SUB-ACCOUNT
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > table:nth-of-type(4) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(1) > a:nth-of-type(1)
+    fingerprint:
+      role: link
+      name: OPEN SUB-ACCOUNT
+      label: ''
+      text: OPEN SUB-ACCOUNT
+      bbox:
+      - 9.0
+      - 235.0
+      - 125.0
+      - 15.0
+    rationale: 'Unique accessible role+name (link ''OPEN SUB-ACCOUNT''): survives markup and layout changes and
+      maps to desktop accessibility APIs. Fallbacks, each verified unique at record time: text, css; replay flags
+      any use of a fallback as degradation.'
+  product_select:
+    description: combobox 'PRODUCT'
+    scope:
+      kind: frame
+      name: content
+      url_path: /sa/new
+    locators:
+    - strategy: label
+      role: combobox
+      label: PRODUCT
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2)
+        > select:nth-of-type(1)
+    fingerprint:
+      role: combobox
+      name: ''
+      label: PRODUCT
+      text: -- SELECT -- SHARE CERTIFICATE 12 MO MONEY MARKET SHARES HOLIDAY CLUB
+      bbox:
+      - 144.0
+      - 77.0
+      - 202.0
+      - 19.0
+    rationale: 'No accessible name (table layout, no <label>/aria); identified the way an operator does, by the
+      visible label ''PRODUCT'' beside it. Fallbacks, each verified unique at record time: css; replay flags any
+      use of a fallback as degradation.'
+  nickname_input:
+    description: textbox 'NICKNAME'
+    scope:
+      kind: frame
+      name: content
+      url_path: /sa/new
+    locators:
+    - strategy: label
+      role: textbox
+      label: NICKNAME
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2)
+        > input:nth-of-type(1)
+    fingerprint:
+      role: textbox
+      name: ''
+      label: NICKNAME
+      text: ''
+      bbox:
+      - 144.0
+      - 104.0
+      - 153.0
+      - 21.0
+    rationale: 'No accessible name (table layout, no <label>/aria); identified the way an operator does, by the
+      visible label ''NICKNAME'' beside it. Fallbacks, each verified unique at record time: css; replay flags any
+      use of a fallback as degradation.'
+  opening_deposit_input:
+    description: textbox 'OPENING DEPOSIT'
+    scope:
+      kind: frame
+      name: content
+      url_path: /sa/new
+    locators:
+    - strategy: label
+      role: textbox
+      label: OPENING DEPOSIT
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2)
+        > input:nth-of-type(1)
+    fingerprint:
+      role: textbox
+      name: ''
+      label: OPENING DEPOSIT
+      text: ''
+      bbox:
+      - 144.0
+      - 133.0
+      - 97.0
+      - 21.0
+    rationale: 'No accessible name (table layout, no <label>/aria); identified the way an operator does, by the
+      visible label ''OPENING DEPOSIT'' beside it. Fallbacks, each verified unique at record time: css; replay flags
+      any use of a fallback as degradation.'
+  fund_from_suffix_select:
+    description: combobox 'FUND FROM SUFFIX'
+    scope:
+      kind: frame
+      name: content
+      url_path: /sa/new
+    locators:
+    - strategy: label
+      role: combobox
+      label: FUND FROM SUFFIX
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(4) > td:nth-of-type(2)
+        > select:nth-of-type(1)
+    fingerprint:
+      role: combobox
+      name: ''
+      label: FUND FROM SUFFIX
+      text: 0000 REGULAR SHARES 0010 SHARE DRAFT CHECKING
+      bbox:
+      - 144.0
+      - 162.0
+      - 224.0
+      - 19.0
+    rationale: 'No accessible name (table layout, no <label>/aria); identified the way an operator does, by the
+      visible label ''FUND FROM SUFFIX'' beside it. Fallbacks, each verified unique at record time: css; replay
+      flags any use of a fallback as degradation.'
+  continue_button:
+    description: button 'CONTINUE'
+    scope:
+      kind: frame
+      name: content
+      url_path: /sa/new
+    locators:
+    - strategy: role
+      role: button
+      name: CONTINUE
+    - strategy: text
+      text: CONTINUE
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2)
+        > input:nth-of-type(1)
+    fingerprint:
+      role: button
+      name: CONTINUE
+      label: ''
+      text: CONTINUE
+      bbox:
+      - 144.0
+      - 189.0
+      - 86.0
+      - 21.0
+    rationale: 'Unique accessible role+name (button ''CONTINUE''): survives markup and layout changes and maps to
+      desktop accessibility APIs. Fallbacks, each verified unique at record time: text, css; replay flags any use
+      of a fallback as degradation.'
+  confirm_and_open_button:
+    description: button 'CONFIRM AND OPEN'
+    scope:
+      kind: frame
+      name: content
+      url_path: /sa/review
+    locators:
+    - strategy: role
+      role: button
+      name: CONFIRM AND OPEN
+    rationale: 'Authored. One semantic locator on purpose: for an irreversible control no fallback beats a wrong
+      one.'
+  confirmation_message:
+    description: confirmation message
+    scope:
+      kind: frame
+      name: content
+      url_path: /sa/commit
+    locators:
+    - strategy: css
+      selector: body > table > tbody > tr:nth-of-type(2) > td
+    rationale: Authored. Free text in the page body with no label or grid; structural path accepted and noted.
+steps:
+- id: s01_open_member_inquiry_to
+  intent: Open Member Inquiry to look up the member
+  screen: functions
+  origin: model
+  action: click
+  target: member_inquiry_link
+  risk: safe
+  expect:
+    screen: member_inquiry
+    timeout_ms: 10000
+- id: s02_enter_the_member_number
+  intent: Enter the member number to search
+  screen: member_inquiry
+  origin: model
+  action: fill
+  target: member_number_input
+  value:
+    param: member_number
+  risk: reversible
+- id: s03_search_for_the_member
+  intent: Search for the member record
+  screen: member_inquiry
+  origin: model
+  action: click
+  target: search_clickable
+  risk: safe
+  expect:
+    screen: member_detail
+    timeout_ms: 10000
+- id: s04_begin_opening_a_new
+  intent: Begin opening a new sub-account for the member
+  screen: member_detail
+  origin: model
+  action: click
+  target: open_sub_account_link
+  risk: safe
+  expect:
+    screen: open_sub_account
+    timeout_ms: 10000
+- id: s05_select_the_product_for
+  intent: Select the product for the new sub-account
+  screen: open_sub_account
+  origin: model
+  action: select
+  target: product_select
+  value:
+    param: product
+  match: label
+  risk: reversible
+- id: s06_enter_the_nickname_for
+  intent: Enter the nickname for the new sub-account
+  screen: open_sub_account
+  origin: model
+  action: fill
+  target: nickname_input
+  value:
+    param: nickname
+  risk: reversible
+- id: s07_enter_the_opening_deposit
+  intent: Enter the opening deposit amount
+  screen: open_sub_account
+  origin: model
+  action: fill
+  target: opening_deposit_input
+  value:
+    param: opening_deposit
+  risk: reversible
+- id: s08_select_the_funding_source
+  intent: Select the funding source suffix
+  screen: open_sub_account
+  origin: model
+  action: select
+  target: fund_from_suffix_select
+  value:
+    param: fund_from_suffix
+  match: label_prefix
+  risk: reversible
+- id: s09_continue_to_the_review
+  intent: Continue to the review screen without opening the account
+  screen: open_sub_account
+  origin: model
+  action: click
+  target: continue_button
+  risk: safe
+  expect:
+    screen: review_new_sub_account
+    timeout_ms: 10000
+- id: s10_confirm_and_open
+  intent: Confirm and open the sub-account
+  screen: review_new_sub_account
+  origin: author
+  action: click
+  target: confirm_and_open_button
+  risk: irreversible
+  expect:
+    screen: sub_account_opened
+    timeout_ms: 10000
+- id: s11_read_confirmation
+  intent: Read the confirmation message
+  screen: sub_account_opened
+  origin: author
+  action: extract
+  target: confirmation_message
+  output: confirmation
+  risk: safe
+success:
+  screen: sub_account_opened
+  outputs_required:
+  - confirmation
+review:
+  status: approved
+  approved_by: reviewer.anay
+  approved_at: '2026-09-14T22:13:06+00:00'
+  approved_digest: 20790a08192699b8
+  notes: Authored extension of a discovered flow; the commit step still needs per-execution approval.
+provenance:
+  method: authored
+  recorded_at: '2026-09-14T22:13:06+00:00'
+  recorded_on:
+    derived_from: keystone.coreserv.open_sub_account_review@1.0.0
+    tenant: prairie
+    app_version: 4.2.1
+  human_steps: 0

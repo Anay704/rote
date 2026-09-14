@@ -1,0 +1,252 @@
+# Read a member's savings (REGULAR SHARES) balance
+# keystone.coreserv.member_savings_balance@1.0.0 - generated artifact; review before approving.
+# Schema: rote.capability/v1 (see schema/capability.schema.json)
+schema_version: rote.capability/v1
+id: keystone.coreserv.member_savings_balance
+version: 1.0.0
+title: Read a member's savings (REGULAR SHARES) balance
+description: 'Opens Member Inquiry, searches by a given member number, and returns the current balance of that member''s
+  REGULAR SHARES savings account from the member detail account table. Input: member number. Output: savings balance
+  (money). Read-only; performs no account maintenance actions.'
+app:
+  product: keystone.coreserv
+  compatible_versions: '>=4.2,<5'
+  surface: web
+risk: safe
+inputs:
+  member_number:
+    type: string
+    description: Credit union member number to look up
+    classification: pii
+    required: true
+    pattern: ^\d{1,10}$
+    source: caller
+outputs:
+  regular_shares_balance:
+    type: money
+    description: Current balance of the member's REGULAR SHARES savings account
+    classification: financial
+outcomes:
+- code: RECORD_NOT_FOUND
+  description: The member number was valid but no member exists.
+  steps: []
+- code: PERMISSION_DENIED
+  description: Operator lacks permission for this record (e.g. employee accounts).
+  steps: []
+- code: VALIDATION_REJECTED
+  description: The application rejected a field value (format, minimums, insufficient funds).
+  steps: []
+entry_screen: functions
+screens:
+  functions:
+    description: FUNCTIONS (frame 'nav', /nav)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: nav
+      path: /nav
+    - kind: text_present
+      scope:
+        kind: frame
+        name: nav
+      text: FUNCTIONS
+  member_inquiry:
+    description: MEMBER INQUIRY (frame 'content', /mi/search)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: content
+      path: /mi/search
+    - kind: text_present
+      scope:
+        kind: frame
+        name: content
+      text: MEMBER INQUIRY
+  member_detail:
+    description: MEMBER DETAIL (frame 'content', /mi/detail)
+    identify:
+    - kind: url_path
+      scope:
+        kind: frame
+        name: content
+      path: /mi/detail
+    - kind: text_present
+      scope:
+        kind: frame
+        name: content
+      text: MEMBER DETAIL
+targets:
+  member_inquiry_link:
+    description: link 'MEMBER INQUIRY'
+    scope:
+      kind: frame
+      name: nav
+      url_path: /nav
+    locators:
+    - strategy: role
+      role: link
+      name: MEMBER INQUIRY
+    - strategy: text
+      text: MEMBER INQUIRY
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > a:nth-of-type(1)
+    fingerprint:
+      role: link
+      name: MEMBER INQUIRY
+      label: ''
+      text: MEMBER INQUIRY
+      bbox:
+      - 27.0
+      - 36.0
+      - 141.0
+      - 17.0
+    rationale: 'Unique accessible role+name (link ''MEMBER INQUIRY''): survives markup and layout changes and maps
+      to desktop accessibility APIs. Fallbacks, each verified unique at record time: text, css; replay flags any
+      use of a fallback as degradation.'
+  member_number_input:
+    description: textbox 'Member Number:'
+    scope:
+      kind: frame
+      name: content
+      url_path: /mi/search
+    locators:
+    - strategy: label
+      role: textbox
+      label: 'Member Number:'
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2)
+        > input:nth-of-type(1)
+    fingerprint:
+      role: textbox
+      name: ''
+      label: 'Member Number:'
+      text: ''
+      bbox:
+      - 128.0
+      - 47.0
+      - 83.0
+      - 21.0
+    rationale: 'No accessible name (table layout, no <label>/aria); identified the way an operator does, by the
+      visible label ''Member Number:'' beside it. Fallbacks, each verified unique at record time: css; replay flags
+      any use of a fallback as degradation.'
+  search_clickable:
+    description: clickable 'SEARCH'
+    scope:
+      kind: frame
+      name: content
+      url_path: /mi/search
+    locators:
+    - strategy: text
+      text: SEARCH
+      role: clickable
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(3)
+    fingerprint:
+      role: clickable
+      name: SEARCH
+      label: ''
+      text: SEARCH
+      bbox:
+      - 216.0
+      - 44.0
+      - 71.0
+      - 27.0
+    rationale: 'Non-semantic clickable with no ARIA role; matched by its visible text ''SEARCH''. Fallbacks, each
+      verified unique at record time: css; replay flags any use of a fallback as degradation.'
+  current_balance_value:
+    description: column 'Current Balance' of the row keyed 'REGULAR SHARES'
+    scope:
+      kind: frame
+      name: content
+      url_path: /mi/detail
+    locators:
+    - strategy: table_cell
+      row_key: REGULAR SHARES
+      column: Current Balance
+    - strategy: css
+      selector: body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(1)
+        > table:nth-of-type(2) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(3)
+    fingerprint:
+      role: cell
+      name: ''
+      label: ''
+      text: $*.**
+      bbox:
+      - 225.0
+      - 142.0
+      - 133.0
+      - 20.0
+    rationale: 'Addressed by row key + column header rather than position, so added or reordered rows do not break
+      it. Row key is the first non-volatile cell (not an amount, date or number). Fallbacks, each verified unique
+      at record time: css; replay flags any use of a fallback as degradation.'
+steps:
+- id: s01_open_the_member_inquiry
+  intent: Open the Member Inquiry function to look up a member
+  screen: functions
+  origin: model
+  action: click
+  target: member_inquiry_link
+  risk: safe
+  expect:
+    screen: member_inquiry
+    timeout_ms: 10000
+- id: s02_enter_the_member_number
+  intent: Enter the member number to search
+  screen: member_inquiry
+  origin: model
+  action: fill
+  target: member_number_input
+  value:
+    param: member_number
+  risk: reversible
+- id: s03_submit_the_member_search
+  intent: Submit the member search
+  screen: member_inquiry
+  origin: model
+  action: click
+  target: search_clickable
+  risk: safe
+  expect:
+    screen: member_detail
+    timeout_ms: 10000
+- id: s04_read_the_current_balance
+  intent: Read the current balance of the REGULAR SHARES (savings) account
+  screen: member_detail
+  origin: model
+  action: extract
+  target: current_balance_value
+  output: regular_shares_balance
+  risk: safe
+success:
+  screen: member_detail
+  outputs_required:
+  - regular_shares_balance
+review:
+  status: approved
+  approved_by: reviewer.anay
+  approved_at: '2026-09-14T22:13:06+00:00'
+  approved_digest: 105f311c877b937f
+  notes: 'Reviewed: locators, screens and step intents checked against the recording screenshots; member_number
+    constrained to 1-10 digits (host format); business outcomes confirmed against the app profile.'
+provenance:
+  method: discovered
+  run_id: 20260914T221200Z-discover-fd9706
+  recorded_at: '2026-09-14T22:12:25+00:00'
+  recorded_on:
+    tenant: prairie
+    app_version: 4.2.1
+  model: claude-opus-5
+  goal: Look up member {member_number} and read their current savings balance (the REGULAR SHARES account).
+  human_steps: 0
+  verification:
+    run_id: 20260914T221225Z-verify-a974a5
+    status: succeeded
+    duration_ms: 1428
+    procedure_digest: 105f311c877b937f
+    warnings:
+    - DRAFT_CAPABILITY
